@@ -1,0 +1,59 @@
+package com.industry.item.amulet;
+
+import com.industry.item.ItemUtils;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.WorldSavePath;
+import net.minecraft.util.math.Box;
+import net.minecraft.world.World;
+
+public class SpeedAmulet extends Item {
+
+    public static SpeedAmulet SPEED_AMULET =  new SpeedAmulet(new Item.Settings());
+
+    public SpeedAmulet(Item.Settings settings) {
+        super(settings);
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        if (!world.isClient) {
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 255));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 300, 20));
+            player.getItemCooldownManager().set(this, 300);
+        }
+        ItemUtils.spawnParticles(world, player, ParticleTypes.HAPPY_VILLAGER, 50);
+        return super.use(world, player, hand);
+    }
+
+    @Override
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (!target.getWorld().isClient && attacker instanceof PlayerEntity) {
+            Box box = target.getBoundingBox().expand(20);
+            for (LivingEntity entity : attacker.getWorld().getEntitiesByClass(LivingEntity.class, box, e -> !e.equals(attacker))) {
+                entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 300, 2));
+                ItemUtils.spawnParticles(target.getWorld(), target, ParticleTypes.SMOKE, 50);
+            }
+        }
+        return super.postHit(stack, target, attacker);
+    }
+
+    public static void implementAmulet(PlayerEntity player) {
+        if (ItemUtils.isInEitherHand(player, SPEED_AMULET)) {
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 40, 1));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 40, 1));
+        }
+        else if (ItemUtils.isInInventory(player, SPEED_AMULET)) {
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 40, 0));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 40, 0));
+        }
+    }
+}
