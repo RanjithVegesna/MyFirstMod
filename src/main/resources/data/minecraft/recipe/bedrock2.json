@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:diamond"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "S": {
+      "item": "industry:strength_amulet"
+    }
+  },
+  "pattern": [
+    "GOG",
+    "OSO",
+    "GOG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:bedrock"
+  },
+  "show_notification": true
+}

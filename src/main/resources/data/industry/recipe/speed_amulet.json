@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:diamond"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "S": {
+      "item": "minecraft:rabbit_foot"
+    }
+  },
+  "pattern": [
+    "GOG",
+    "OSO",
+    "GOG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "industry:speed_amulet"
+  },
+  "show_notification": true
+}

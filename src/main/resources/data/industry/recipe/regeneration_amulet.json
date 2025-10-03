@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:diamond"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "S": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "pattern": [
+    "GOG",
+    "OSO",
+    "GOG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "industry:regeneration_amulet"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:diamond"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "pattern": [
+    "GOG",
+    "OSO",
+    "GOG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "industry:strength_amulet"
+  },
+  "show_notification": true
+}
