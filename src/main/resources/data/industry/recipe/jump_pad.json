@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "L": {
+      "item": "minecraft:lime_concrete"
+    },
+    "B": {
+      "item": "minecraft:bedrock"
+    },
+    "R": {
+      "item": "minecraft:rabbit_foot"
+    }
+  },
+  "pattern": [
+    "LBL",
+    "LRL",
+    " L "
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:bedrock"
+  },
+  "show_notification": true
+}
