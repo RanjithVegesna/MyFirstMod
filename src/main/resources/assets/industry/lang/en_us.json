@@ -4,5 +4,15 @@
   "item.industry.speed_amulet" : "Mysterious Amulet",
   "item.industry.strength_amulet" : "Mysterious Amulet",
 
-  "block.industry.jump_pad" : "Jump Pad"
+  "block.industry.jump_pad" : "Jump Pad Boost : 1",
+  "block.industry.jump_pad_1.5" : "Jump Pad Boost : 1.5",
+  "block.industry.jump_pad_2" : "Jump Pad Boost : 2",
+  "block.industry.jump_pad_3" : "Jump Pad Boost : 3",
+  "block.industry.jump_pad_4" : "Jump Pad Boost : 4",
+  "block.industry.jump_pad_5" : "Jump Pad Boost : 5",
+  "block.industry.jump_pad_6" : "Jump Pad Boost : 6",
+  "block.industry.jump_pad_7" : "Jump Pad Boost : 7",
+  "block.industry.jump_pad_8" : "Jump Pad Boost : 8",
+  "block.industry.jump_pad_9" : "Jump Pad Boost : 9",
+  "block.industry.jump_pad_10" : "Jump Pad Boost : 10"
 }

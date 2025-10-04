@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    { "item": "minecraft:rabbit_foot" },
+    { "item": "industry:jump_pad_9" }
+  ],
+  "result": {
+    "id": "industry:jump_pad_10"
+  }
+}

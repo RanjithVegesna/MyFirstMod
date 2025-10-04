@@ -1,7 +1,6 @@
 package com.industry.item.amulet;
 
 import com.industry.item.ItemUtils;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -11,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
