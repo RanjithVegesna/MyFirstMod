@@ -4,6 +4,10 @@
   "item.industry.speed_amulet" : "Mysterious Amulet",
   "item.industry.strength_amulet" : "Mysterious Amulet",
 
+  "item.industry.shaper" : "Shaper",
+  "item.industry.carver" : "Carver",
+  "item.industry.mob_switcher" : "Mob Changer",
+
   "block.industry.jump_pad" : "Jump Pad Boost : 1",
   "block.industry.jump_pad_1.5" : "Jump Pad Boost : 1.5",
   "block.industry.jump_pad_2" : "Jump Pad Boost : 2",

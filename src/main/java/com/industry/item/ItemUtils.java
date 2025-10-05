@@ -1,12 +1,20 @@
 package com.industry.item;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
+import net.minecraft.util.function.BooleanBiFunction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
+
+import java.util.*;
 
 public class ItemUtils {
     public static boolean isInInventory(PlayerEntity player, Item item) {
@@ -47,5 +55,50 @@ public class ItemUtils {
                     velocityY,
                     velocityZ);
         }
+    }
+    public static Map<Block, Block> createBlockCycle(Block... blocks) {
+        Map<Block, Block> cycle = new HashMap<>();
+        for (int i = 0; i < blocks.length; i++) {
+            Block current = blocks[i];
+            Block next = blocks[(i + 1) % blocks.length]; // wrap-around
+            cycle.put(current, next);
+        }
+        return cycle;
+    }
+
+    @SuppressWarnings("unused")
+    public static List<BlockPos> ifBoxContains(Box box, World world) {
+        List<BlockPos> blocks = new ArrayList<>();
+
+        int minX = (int) Math.floor(box.minX);
+        int minY = (int) Math.floor(box.minY);
+        int minZ = (int) Math.floor(box.minZ);
+        int maxX = (int) Math.ceil(box.maxX);
+        int maxY = (int) Math.ceil(box.maxY);
+        int maxZ = (int) Math.ceil(box.maxZ);
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    BlockPos pos = new BlockPos(x, y, z);
+                    BlockState state = world.getBlockState(pos);
+                    VoxelShape blockShape = state.getCollisionShape(world, pos);
+
+                    // Create a box relative to the block (0-1 cube)
+                    Box relativeBox = new Box(
+                            box.minX - x, box.minY - y, box.minZ - z,
+                            box.maxX - x, box.maxY - y, box.maxZ - z
+                    );
+
+                    VoxelShape boxShape = VoxelShapes.cuboid(relativeBox);
+
+                    // Check if the block's shape intersects the boxShape
+                    if (VoxelShapes.matchesAnywhere(blockShape, boxShape, BooleanBiFunction.AND)) {
+                        blocks.add(pos);
+                    }
+                }
+            }
+        }
+        return blocks;
     }
 }

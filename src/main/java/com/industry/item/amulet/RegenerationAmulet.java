@@ -1,6 +1,8 @@
 package com.industry.item.amulet;
 
 import com.industry.item.ItemUtils;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -27,8 +29,14 @@ public static RegenerationAmulet REGENERATION_AMULET = new RegenerationAmulet(ne
         if (!world.isClient) {
             player.setHealth(player.getMaxHealth());
             player.getItemCooldownManager().set(this, 600);
+            LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
+            if (lightning != null) {
+                lightning.setCosmetic(true); // 💡 disables fire and other world effects
+                lightning.refreshPositionAfterTeleport(Vec3d.of(player.getBlockPos()));
+                world.spawnEntity(lightning);
+            }
         }
-        ItemUtils.spawnParticles(world, player, ParticleTypes.HAPPY_VILLAGER, 50);
+        ItemUtils.spawnParticles(world, player, ParticleTypes.ELECTRIC_SPARK, 50);
         return super.use(world, player, hand);
     }
 

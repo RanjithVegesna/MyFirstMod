@@ -1,8 +1,7 @@
 package com.industry.item.amulet;
 
 import com.industry.item.ItemUtils;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,8 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ResistanceAmulet extends Item {
@@ -28,8 +27,14 @@ public class ResistanceAmulet extends Item {
         if (!world.isClient) {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 300, 255));
             player.getItemCooldownManager().set(this, 600);
+            LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
+            if (lightning != null) {
+                lightning.setCosmetic(true); // 💡 disables fire and other world effects
+                lightning.refreshPositionAfterTeleport(Vec3d.of(player.getBlockPos()));
+                world.spawnEntity(lightning);
+            }
         }
-        ItemUtils.spawnParticles(world, player, ParticleTypes.HAPPY_VILLAGER, 50);
+        ItemUtils.spawnParticles(world, player, ParticleTypes.ELECTRIC_SPARK, 50);
         return super.use(world, player, hand);
     }
 
@@ -37,7 +42,7 @@ public class ResistanceAmulet extends Item {
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient && attacker instanceof PlayerEntity) {
             Box box = target.getBoundingBox().expand(20);
-            for (LivingEntity entity : attacker.getWorld().getEntitiesByClass(LivingEntity.class, box, e -> !e.equals(attacker))) {
+            for (LivingEntity ignored : attacker.getWorld().getEntitiesByClass(LivingEntity.class, box, e -> !e.equals(attacker))) {
                 target.setHealth(target.getHealth() / 2);
                 ItemUtils.spawnParticles(target.getWorld(), target, ParticleTypes.ASH, 50);
             }

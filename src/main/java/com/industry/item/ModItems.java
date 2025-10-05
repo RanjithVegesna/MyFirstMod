@@ -12,6 +12,10 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModItems {
+    public static Item CHISEL = registerItem("shaper", ChangerItem.Chisel);
+    public static Item SWITCHER = registerItem("mob_switcher", MobSwitcherItem.Chisel);
+    public static Item CARVER =  registerItem("carver", CarverItem.Chisel);
+
     public static Item REGENERATION_AMULET = registerItem("regeneration_amulet", RegenerationAmulet.REGENERATION_AMULET);
     public static Item RESISTANCE_AMULET = registerItem("resistance_amulet", ResistanceAmulet.RESISTANCE_AMULET);
     public static Item SPEED_AMULET = registerItem("speed_amulet", SpeedAmulet.SPEED_AMULET);
@@ -29,6 +33,12 @@ public class ModItems {
             entries.add(RESISTANCE_AMULET);
             entries.add(SPEED_AMULET);
             entries.add(STRENGTH_AMULET);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
+            entries.add(CHISEL);
+            entries.add(SWITCHER);
+            entries.add(CARVER);
         });
     }
 

@@ -1,8 +1,7 @@
 package com.industry.item.amulet;
 
 import com.industry.item.ItemUtils;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,8 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class StrengthAmulet extends Item {
@@ -26,10 +25,16 @@ public class StrengthAmulet extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClient) {
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 300, 255));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 300, 10));
             player.getItemCooldownManager().set(this, 600);
+            LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
+            if (lightning != null) {
+                lightning.setCosmetic(true); // 💡 disables fire and other world effects
+                lightning.refreshPositionAfterTeleport(Vec3d.of(player.getBlockPos()));
+                world.spawnEntity(lightning);
+            }
         }
-        ItemUtils.spawnParticles(world, player, ParticleTypes.DRAGON_BREATH, 50);
+        ItemUtils.spawnParticles(world, player, ParticleTypes.ELECTRIC_SPARK, 50);
         return super.use(world, player, hand);
     }
 

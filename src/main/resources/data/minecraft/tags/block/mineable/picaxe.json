@@ -1,0 +1,16 @@
+{
+  "replace" : false,
+  "values" : [
+    "industry:jump_pad",
+    "industry:jump_pad_1.5",
+    "industry:jump_pad_2",
+    "industry:jump_pad_3",
+    "industry:jump_pad_4",
+    "industry:jump_pad_5",
+    "industry:jump_pad_6",
+    "industry:jump_pad_7",
+    "industry:jump_pad_8",
+    "industry:jump_pad_9",
+    "industry:jump_pad_10"
+  ]
+}
