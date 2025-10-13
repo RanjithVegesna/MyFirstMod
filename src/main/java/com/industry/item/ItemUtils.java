@@ -7,9 +7,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
@@ -101,4 +103,24 @@ public class ItemUtils {
         }
         return blocks;
     }
+
+    public static void getRayPoints(World world, ParticleEffect particleType, Vec3d start, Vec3d direction, double maxDistance, double stepSize) {
+        if (world.isClient) return; // Do nothing on client
+
+        ServerWorld serverWorld = (ServerWorld) world;
+        Vec3d normDirection = direction.normalize();
+
+        for (double d = 0; d <= maxDistance; d += stepSize) {
+            Vec3d point = start.add(normDirection.multiply(d));
+
+            serverWorld.spawnParticles(
+                    particleType,      // Particle type (e.g. ParticleTypes.END_ROD)
+                    point.x, point.y, point.z, // Particle position
+                    1,                 // Count
+                    0.00, 0.00, 0.00,  // Small spread
+                    0.00               // Particle speed
+            );
+        }
+    }
+
 }

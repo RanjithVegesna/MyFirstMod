@@ -8,23 +8,31 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class MobSwitcherItem extends Item {
 
     private static BlockPos lastPos;
+    private static boolean wasInHandInPreviousTick = false;
 
     public static Item Chisel = new MobSwitcherItem(new Item.Settings());
 
     public static final Map<EntityType<?>, EntityType<?>> ENTITY_MAP = new HashMap<>
             (Map.ofEntries(
-                    // Villager Cycle: humanoid NPCs and illagers
                     Map.entry(EntityType.ZOMBIE_VILLAGER, EntityType.VILLAGER),
                     Map.entry(EntityType.VILLAGER, EntityType.WANDERING_TRADER),
                     Map.entry(EntityType.WANDERING_TRADER, EntityType.PILLAGER),
@@ -110,49 +118,86 @@ public class MobSwitcherItem extends Item {
 
 
         if (player.getMainHandStack().getItem() instanceof MobSwitcherItem || player.getOffHandStack().getItem() instanceof MobSwitcherItem) {
-            world.setBlockState(player.getBlockPos().up(2), Blocks.LIGHT.getDefaultState());
-            BlockPos newPos = player.getBlockPos().up(2);
+            world.setBlockState(player.getBlockPos().up(1), Blocks.LIGHT.getDefaultState());
+            BlockPos newPos = player.getBlockPos().up(1);
 
             if (lastPos != null && world.getBlockState(lastPos).getBlock() != Blocks.AIR && !lastPos.equals(newPos)) {
                 world.setBlockState(lastPos, Blocks.AIR.getDefaultState());
             }
-
+            wasInHandInPreviousTick = true;
             lastPos = newPos;
+        }
+        else {
+            if (wasInHandInPreviousTick) {
+                world.setBlockState(lastPos, Blocks.AIR.getDefaultState());
+            }
         }
         super.inventoryTick(stack, world, entity, slot, selected);
     }
 
     @Override
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        double maxDistance = 500.0;
 
-        World world = user.getWorld();
-        EntityType<?> nextType = ENTITY_MAP.get(entity.getType());
-        if (nextType == null) {
-            return ActionResult.PASS;
-        }
+        if (!world.isClient) {
 
-        if (hand == Hand.MAIN_HAND) {
-            if (!world.isClient) {
-                Entity newEntity = nextType.create(world);
-                if (ENTITY_MAP.containsKey(entity.getType())) {
+            // Raycast for entity from player's eye position
+            EntityHitResult entityHitResult = rayCastEntity(user, maxDistance);
 
-                    Mod.LOGGER.info("Using MobSwitcherItem for " + entity.getType());
-                    assert newEntity != null;
+            if (entityHitResult != null) {
+                Entity targetEntity = entityHitResult.getEntity();
 
-                    newEntity.refreshPositionAndAngles(
-                            entity.getX(),
-                            entity.getY(),
-                            entity.getZ(),
-                            entity.getYaw(),
-                            entity.getPitch()
-                    );
-
+                if (targetEntity instanceof LivingEntity living && (ENTITY_MAP.containsKey(living.getType()))) {
+                    EntityType<?> nextType = ENTITY_MAP.get(living.getType());
+                    Entity newEntity = nextType.create(world);
+                    if (newEntity != null) {
+                        newEntity.refreshPositionAndAngles(
+                                living.getX(), living.getY(), living.getZ(),
+                                living.getYaw(), living.getPitch()
+                        );
                         world.spawnEntity(newEntity);
+                        ItemUtils.spawnParticles(world, living, ParticleTypes.HAPPY_VILLAGER, 100);
+                        living.remove(Entity.RemovalReason.DISCARDED);
+                        Mod.LOGGER.info("Switched mob {} to {}", living.getType(), nextType);
 
-                    entity.remove(Entity.RemovalReason.DISCARDED);
+                        ItemUtils.getRayPoints(world, ParticleTypes.FLAME, user.getEyePos(), user.getRotationVec(1), maxDistance, 0.1);
+
+                        return TypedActionResult.success(user.getStackInHand(hand));
+                    }
+                }
+            }
+            ItemUtils.getRayPoints(world, ParticleTypes.SOUL_FIRE_FLAME, user.getEyePos(), user.getRotationVec(1), maxDistance, 0.1);
+        }
+        return TypedActionResult.pass(user.getStackInHand(hand));
+    }
+
+    // Helper method to raycast entities up to maxDistance
+    private EntityHitResult rayCastEntity(PlayerEntity player, double maxDistance) {
+        Vec3d start = player.getCameraPosVec(1.0F);
+        Vec3d look = player.getRotationVec(1.0F);
+        Vec3d end = start.add(look.x * maxDistance, look.y * maxDistance, look.z * maxDistance);
+
+        // Get all entities in the path of the raycast
+        Box box = player.getBoundingBox().stretch(look.multiply(maxDistance)).expand(1.0D, 1.0D, 1.0D);
+        List<Entity> entities = player.getWorld().getEntitiesByClass(Entity.class, box, entity -> entity instanceof LivingEntity);
+
+        EntityHitResult closestHit = null;
+        double closestDistance = maxDistance;
+
+        for (Entity entity : entities) {
+            Box entityBox = entity.getBoundingBox().expand(0.3D);
+            Optional<Vec3d> hitPos = entityBox.raycast(start, end);
+
+            if (hitPos.isPresent()) {
+                double distance = start.distanceTo(hitPos.get());
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestHit = new EntityHitResult(entity, hitPos.get());
                 }
             }
         }
-        return ActionResult.SUCCESS;
+
+        return closestHit;
     }
+
 }
