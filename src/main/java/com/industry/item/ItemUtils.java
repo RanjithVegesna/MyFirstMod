@@ -2,6 +2,7 @@ package com.industry.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -9,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.function.BooleanBiFunction;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -122,5 +124,30 @@ public class ItemUtils {
             );
         }
     }
+    public static List<EntityHitResult> rayCastEntities(PlayerEntity player, double maxDistance) {
+        Vec3d start = player.getCameraPosVec(1.0F);
+        Vec3d look = player.getRotationVec(1.0F);
+        Vec3d end = start.add(look.multiply(maxDistance));
+
+        // Get all entities in the ray's path
+        Box box = player.getBoundingBox().stretch(look.multiply(maxDistance)).expand(1.0D);
+        List<Entity> entities = player.getWorld().getEntitiesByClass(Entity.class, box,
+                entity -> entity instanceof LivingEntity && entity != player && entity.isAlive());
+
+        List<EntityHitResult> hitResults = new ArrayList<>();
+
+        for (Entity entity : entities) {
+            Box entityBox = entity.getBoundingBox().expand(0.3D);
+            Optional<Vec3d> hitPos = entityBox.raycast(start, end);
+
+            hitPos.ifPresent(vec3d -> hitResults.add(new EntityHitResult(entity, vec3d)));
+        }
+
+        // Sort by distance from start to ensure correct hit order
+        hitResults.sort(Comparator.comparingDouble(hit -> start.distanceTo(hit.getPos())));
+
+        return hitResults;
+    }
+
 
 }

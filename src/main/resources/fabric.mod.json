@@ -14,15 +14,18 @@
 	"license": "CC0-1.0",
 	"icon": "assets/industry/icon.png",
 	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"com.industry.Mod"
-		],
-		"fabric-datagen": [
-			"com.industry.ModDataGenerator"
-		]
-	},
-	"mixins": [
+  "entrypoints": {
+    "main": [
+      "com.industry.Mod"
+    ],
+    "client": [
+      "com.industry.ModClient"
+    ],
+    "fabric-datagen": [
+      "com.industry.ModDataGenerator"
+    ]
+  },
+  "mixins": [
 		"industry.mixins.json"
 	],
 	"depends": {

@@ -19,18 +19,12 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class MobSwitcherItem extends Item {
 
     private static BlockPos lastPos;
     private static boolean wasInHandInPreviousTick = false;
-
-    public static Item Chisel = new MobSwitcherItem(new Item.Settings());
-
     public static final Map<EntityType<?>, EntityType<?>> ENTITY_MAP = new HashMap<>
             (Map.ofEntries(
                     Map.entry(EntityType.ZOMBIE_VILLAGER, EntityType.VILLAGER),
@@ -171,8 +165,7 @@ public class MobSwitcherItem extends Item {
         return TypedActionResult.pass(user.getStackInHand(hand));
     }
 
-    // Helper method to raycast entities up to maxDistance
-    private EntityHitResult rayCastEntity(PlayerEntity player, double maxDistance) {
+    public static EntityHitResult rayCastEntity(PlayerEntity player, double maxDistance) {
         Vec3d start = player.getCameraPosVec(1.0F);
         Vec3d look = player.getRotationVec(1.0F);
         Vec3d end = start.add(look.x * maxDistance, look.y * maxDistance, look.z * maxDistance);
@@ -199,5 +192,4 @@ public class MobSwitcherItem extends Item {
 
         return closestHit;
     }
-
 }

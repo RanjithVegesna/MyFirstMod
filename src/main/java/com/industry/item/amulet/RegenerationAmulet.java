@@ -16,10 +16,9 @@ import net.minecraft.world.World;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 
+import static com.industry.item.ModItems.REGENERATION_AMULET;
+
 public class RegenerationAmulet extends Item {
-
-public static RegenerationAmulet REGENERATION_AMULET = new RegenerationAmulet(new  Item.Settings());
-
     public RegenerationAmulet(Item.Settings settings) {
         super(settings);
     }

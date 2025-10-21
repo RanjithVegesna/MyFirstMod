@@ -14,10 +14,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import static com.industry.item.ModItems.RESISTANCE_AMULET;
+
 public class ResistanceAmulet extends Item {
-
-    public static ResistanceAmulet RESISTANCE_AMULET = new ResistanceAmulet(new Settings());
-
     public ResistanceAmulet(Item.Settings settings) {
         super(settings);
     }

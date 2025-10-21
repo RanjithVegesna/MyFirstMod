@@ -12,18 +12,21 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModItems {
-    public static Item CHISEL = registerItem("shaper", ChangerItem.Chisel);
-    public static Item SWITCHER = registerItem("mob_switcher", MobSwitcherItem.Chisel);
-    public static Item CARVER =  registerItem("carver", CarverItem.Chisel);
 
-    public static Item REGENERATION_AMULET = registerItem("regeneration_amulet", RegenerationAmulet.REGENERATION_AMULET);
-    public static Item RESISTANCE_AMULET = registerItem("resistance_amulet", ResistanceAmulet.RESISTANCE_AMULET);
-    public static Item SPEED_AMULET = registerItem("speed_amulet", SpeedAmulet.SPEED_AMULET);
-    public static Item STRENGTH_AMULET = registerItem("strength_amulet", StrengthAmulet.STRENGTH_AMULET);
+    public static final Item CHISEL = registerItem("shaper", new ChangerItem(new Item.Settings()));
+    public static final Item SWITCHER = registerItem("mob_switcher", new MobSwitcherItem(new Item.Settings()));
+    public static final Item CARVER = registerItem("carver", new CarverItem(new Item.Settings()));
+    public static final Item LAUNCHER = registerItem("launcher", new Launcher(new Item.Settings()));
+    public static final Item RAILGUN = registerItem("railgun", new Railgun(new Item.Settings()));
+
+    public static final Item REGENERATION_AMULET = registerItem("regeneration_amulet", new RegenerationAmulet(new Item.Settings()));
+    public static final Item RESISTANCE_AMULET = registerItem("resistance_amulet", new ResistanceAmulet(new Item.Settings()));
+    public static final Item SPEED_AMULET = registerItem("speed_amulet", new SpeedAmulet(new Item.Settings()));
+    public static final Item STRENGTH_AMULET = registerItem("strength_amulet", new StrengthAmulet(new Item.Settings()));
 
 
 
-    public static Item registerItem(String name, Item item) {
+        public static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of("industry", name), item);
     }
 
@@ -39,6 +42,11 @@ public class ModItems {
             entries.add(CHISEL);
             entries.add(SWITCHER);
             entries.add(CARVER);
+            entries.add(LAUNCHER);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
+            entries.add(RAILGUN);
         });
     }
 

@@ -16,10 +16,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import static com.industry.item.ModItems.SPEED_AMULET;
+
 public class SpeedAmulet extends Item {
-
-    public static SpeedAmulet SPEED_AMULET =  new SpeedAmulet(new Item.Settings());
-
     public SpeedAmulet(Item.Settings settings) {
         super(settings);
     }

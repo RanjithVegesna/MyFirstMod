@@ -7,6 +7,11 @@
   "item.industry.shaper" : "Shaper",
   "item.industry.carver" : "Carver",
   "item.industry.mob_switcher" : "Mob Changer",
+  "item.industry.launcher" : "woB",
+  "item.industry.railgun" : "Railgun",
+
+  "death.attack.railgun": "%1$s was vaporized by %2$s",
+
 
   "block.industry.jump_pad" : "Jump Pad Boost : 1",
   "block.industry.jump_pad_1.5" : "Jump Pad Boost : 1.5",

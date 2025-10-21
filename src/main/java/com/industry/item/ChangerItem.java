@@ -16,9 +16,6 @@ import java.util.Map;
 import static com.industry.item.ItemUtils.createBlockCycle;
 
 public class ChangerItem extends Item {
-
-    public static Item Chisel = new ChangerItem(new Item.Settings());
-
     public static final Map<Block, Block> BLOCKS = new HashMap<>() {{
         putAll(createBlockCycle(
                 Blocks.COBBLESTONE,

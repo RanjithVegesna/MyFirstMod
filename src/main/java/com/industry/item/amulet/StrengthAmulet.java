@@ -14,10 +14,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import static com.industry.item.ModItems.STRENGTH_AMULET;
+
 public class StrengthAmulet extends Item {
-
-    public static StrengthAmulet STRENGTH_AMULET = new StrengthAmulet(new Item.Settings());
-
     public StrengthAmulet(Item.Settings settings) {
         super(settings);
     }
