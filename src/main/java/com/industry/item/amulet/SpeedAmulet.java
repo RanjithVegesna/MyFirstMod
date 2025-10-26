@@ -28,10 +28,10 @@ public class SpeedAmulet extends Item {
         if (!world.isClient) {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 9));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 300, 9));
-            player.getItemCooldownManager().set(this, 300);
+            player.getItemCooldownManager().set(this, 600);
             LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
             if (lightning != null) {
-                lightning.setCosmetic(true); // 💡 disables fire and other world effects
+                lightning.setCosmetic(true);
                 lightning.refreshPositionAfterTeleport(Vec3d.of(player.getBlockPos()));
                 world.spawnEntity(lightning);
             }

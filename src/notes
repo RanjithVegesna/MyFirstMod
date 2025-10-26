@@ -1,10 +1,1 @@
-model assets/industry/models/item/railgun.json
-
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "industry:item/railgun"
-  }
-}
-
-
+approx -307, -45, -712

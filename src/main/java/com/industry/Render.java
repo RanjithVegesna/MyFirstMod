@@ -30,7 +30,7 @@ public class Render {
             Item itemInHand = itemStack.getItem();
             Vec3d handPosOffset = MinecraftClient.getInstance().player.getHandPosOffset(itemInHand);  // whichever item your player is holding
             Vec3d lookVec = MinecraftClient.getInstance().player.getRotationVec(1);
-            Vec3d cameraPos = MinecraftClient.getInstance().player.getCameraPosVec(1).add(handPosOffset).add(lookVec.multiply(0.9).add(0, -0.25, -0.25));
+            Vec3d cameraPos = MinecraftClient.getInstance().player.getCameraPosVec(1).add(handPosOffset).add(lookVec).add(0, -0.1, 0);
 
             start = cameraPos;
             double maxLength = MinecraftClient.getInstance().options.getViewDistance().getValue(); // Max beam length during charging
@@ -135,7 +135,7 @@ public class Render {
                 White,
                 rp1, rp2, rp3, rp4,
                 rp5, rp6, rp7, rp8,
-                red, green, blue, alpha
+                red, green, blue, alpha, false, MinecraftClient.getInstance()
         );
     }
 }

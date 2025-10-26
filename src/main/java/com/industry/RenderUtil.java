@@ -5,6 +5,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import net.minecraft.client.MinecraftClient;
@@ -69,91 +70,37 @@ public class RenderUtil {
         renderTriangle(vertexConsumer, matrix, d, c, a, r, g, bCol, aCol);
     }
 
-    public static void renderVertexLabel(VertexConsumerProvider vertexConsumers, Matrix4f matrix,
-                                         MatrixStack matrixStack,
-                                         Vec3d pos, String label,
-                                         float size,
-                                         float r, float g, float b, float a) {
-
-        // Render a small cube (marker)
-        Vec3d p1 = pos.subtract(new Vec3d(size, size, size));  // min corner
-        Vec3d p2 = pos.add(new Vec3d(size, size, size));       // max corner
-
-        renderBox(vertexConsumers, matrix,
-                Blue,
-                // top face
-                new Vec3d(p1.x, p2.y, p1.z),   // p1 top-left-front
-                new Vec3d(p1.x, p1.y, p1.z),   // p2 bottom-left-front
-                new Vec3d(p2.x, p1.y, p1.z),   // p3 bottom-right-front
-                new Vec3d(p2.x, p2.y, p1.z),   // p4 top-right-front
-
-                // bottom face
-                new Vec3d(p2.x, p2.y, p2.z),   // p5 top-right-back
-                new Vec3d(p2.x, p1.y, p2.z),   // p6 bottom-right-back
-                new Vec3d(p1.x, p1.y, p2.z),   // p7 bottom-left-back
-                new Vec3d(p1.x, p2.y, p2.z),   // p8 top-left-back
-
-                r, g, b, a);
-
-
-        // Render label text above the vertex
-        matrixStack.push();
-
-        // Translate to the vertex position
-        matrixStack.translate(pos.x, pos.y + size * 2, pos.z);
-
-        // Get Minecraft's text renderer
-        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-
-        // Rotate text to always face the camera
-        matrixStack.multiply(MinecraftClient.getInstance().getEntityRenderDispatcher().getRotation());
-
-        // Scale down the text (optional, tweak as needed)
-        float scale = 1f;
-        matrixStack.scale(-scale, -scale, scale);
-
-        // Draw the text centered
-        textRenderer.draw(
-                Text.of(label),
-                -textRenderer.getWidth(label) / 2f,
-                0,
-                0xFFFFFF, // white color
-                false,
-                matrixStack.peek().getPositionMatrix(),
-                vertexConsumers,
-                TextRenderer.TextLayerType.SEE_THROUGH,
-                0,
-                15728880 // lighting
-        );
-
-        matrixStack.pop();
-    }
-
-
     public static void renderBox(VertexConsumerProvider vertexConsumers, Matrix4f matrix,
                                  Identifier texture,
                                  Vec3d p1, Vec3d p2, Vec3d p3, Vec3d p4,
                                  Vec3d p5, Vec3d p6, Vec3d p7, Vec3d p8,
-                                 float r, float g, float b, float a) {
+                                 float r, float g, float b, float a,
+                                 boolean collideWithBlocks, MinecraftClient client) {
 
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(texture));
 
-        // FRONT face (z-)
-        renderDoubleSidedQuad(vertexConsumer, matrix, p1, p2, p3, p4, r, g, b, a);
+        // Helper: skip a quad if all corners are inside solid blocks
+        java.util.function.Consumer<Vec3d[]> renderQuadIfAir = (Vec3d[] corners) -> {
+            if (collideWithBlocks) {
+                for (Vec3d corner : corners) {
+                    BlockPos blockPos = new BlockPos((int) corner.x,  (int) corner.y, (int) corner.z);
+                    if (!client.world.isAir(blockPos)) return; // skip this quad
+                }
+            }
+            renderDoubleSidedQuad(vertexConsumer, matrix, corners[0], corners[1], corners[2], corners[3], r, g, b, a);
+        };
 
-        // BACK face (z+)
-        renderDoubleSidedQuad(vertexConsumer, matrix, p5, p6, p7, p8, r, g, b, a);
-
-        // TOP face (y+)
-        renderDoubleSidedQuad(vertexConsumer, matrix, p8, p1, p4, p5, r, g, b, a);
-
-        // BOTTOM face (y-)
-        renderDoubleSidedQuad(vertexConsumer, matrix, p7, p2, p3, p6, r, g, b, a);
-
-        // LEFT face (x-)
-        renderDoubleSidedQuad(vertexConsumer, matrix, p1, p2, p6, p5, r, g, b, a);
-
-        // RIGHT face (x+)
-        renderDoubleSidedQuad(vertexConsumer, matrix, p4, p3, p7, p8, r, g, b, a);
+        // FRONT face
+        renderQuadIfAir.accept(new Vec3d[]{p1, p2, p3, p4});
+        // BACK face
+        renderQuadIfAir.accept(new Vec3d[]{p5, p6, p7, p8});
+        // TOP face
+        renderQuadIfAir.accept(new Vec3d[]{p8, p1, p4, p5});
+        // BOTTOM face
+        renderQuadIfAir.accept(new Vec3d[]{p7, p2, p3, p6});
+        // LEFT face
+        renderQuadIfAir.accept(new Vec3d[]{p1, p2, p6, p5});
+        // RIGHT face
+        renderQuadIfAir.accept(new Vec3d[]{p4, p3, p7, p8});
     }
 }

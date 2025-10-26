@@ -7,7 +7,7 @@
   "item.industry.shaper" : "Shaper",
   "item.industry.carver" : "Carver",
   "item.industry.mob_switcher" : "Mob Changer",
-  "item.industry.launcher" : "woB",
+  "item.industry.launcher" : "Launcher",
   "item.industry.railgun" : "Railgun",
 
   "death.attack.railgun": "%1$s was vaporized by %2$s",

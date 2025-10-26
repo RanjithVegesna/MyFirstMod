@@ -8,7 +8,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Arm;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -149,5 +151,41 @@ public class ItemUtils {
         return hitResults;
     }
 
+    // Returns hand position offset vector for a server-side player
+    public static Vec3d getHandPosOffset(ServerPlayerEntity player, Item item) {
+        if (player == null) {
+            return Vec3d.ZERO;
+        }
 
+        ItemStack main = player.getMainHandStack();
+        ItemStack off = player.getOffHandStack();
+
+        // Determine which arm to use (same logic as client)
+        boolean offHandOnly = off.isOf(item) && !main.isOf(item);
+        Arm arm = offHandOnly ? player.getMainArm().getOpposite() : player.getMainArm();
+
+        // Compute offset vector based on yaw + arm rotation
+        float yawOffset = (arm == Arm.RIGHT ? 80 : -80);
+        Vec3d rotationVec = getRotationVector(player.getPitch(), player.getYaw() + yawOffset);
+
+        // Scale to match client-side
+        return rotationVec.multiply(0.5);
+    }
+
+    // Converts yaw/pitch to a unit direction vector
+    public static Vec3d getRotationVector(float pitch, float yaw) {
+        float f1 = (float) Math.cos(-yaw * Math.PI / 180.0 - Math.PI);
+        float f2 = (float) Math.sin(-yaw * Math.PI / 180.0 - Math.PI);
+        float f3 = - (float) Math.cos(-pitch * Math.PI / 180.0);
+        float f4 = (float) Math.sin(-pitch * Math.PI / 180.0);
+        return new Vec3d((double)(f2 * f3), f4, (double)(f1 * f3));
+    }
+
+    // Returns the look vector separately
+    public static Vec3d getLookVector(ServerPlayerEntity player) {
+        return getRotationVector(player.getPitch(), player.getYaw());
+    }
 }
+
+
+
