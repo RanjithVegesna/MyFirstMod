@@ -42,7 +42,7 @@ public class OrbitalLazerCannonRendering {
 
         // Camera-relative position
         Vec3d cameraPos = client.gameRenderer.getCamera().getPos();
-        Vec3d relCenter = center.subtract(cameraPos);
+        Vec3d relCenter = center;
 
         if (currentState == State.BEAM) {
             if (previousState != State.BEAM) {

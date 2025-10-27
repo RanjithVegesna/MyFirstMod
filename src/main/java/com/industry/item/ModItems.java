@@ -23,7 +23,7 @@ public class ModItems {
     public static final Item RESISTANCE_AMULET = registerItem("resistance_amulet", new ResistanceAmulet(new Item.Settings()));
     public static final Item SPEED_AMULET = registerItem("speed_amulet", new SpeedAmulet(new Item.Settings()));
     public static final Item STRENGTH_AMULET = registerItem("strength_amulet", new StrengthAmulet(new Item.Settings()));
-    public static final Item ORBITAL_LAZER_CANNON = registerItem("orbital_lazer_cannon", new OrbitalLazerCannon(new Item.Settings()));
+    public static final Item ORBITAL_LAZER_CANNON = registerItem("orbital_laser_cannon", new OrbitalLazerCannon(new Item.Settings()));
 
 
 

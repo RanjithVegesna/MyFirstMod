@@ -1,5 +1,6 @@
 package com.industry;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
@@ -7,6 +8,7 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3d;
 
 import static com.industry.RenderUtil.renderBox;
+import static com.industry.textures.ModTextures.Red;
 import static com.industry.textures.ModTextures.White;
 
 public class Beam{
@@ -26,25 +28,32 @@ public class Beam{
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.world == null) return;
 
-        // Camera-relative position
+        // Convert from world → camera space once here
         Vec3d cameraPos = client.gameRenderer.getCamera().getPos();
         Vec3d relPos = new Vec3d(x, 0, z).subtract(cameraPos);
 
-        // Top vertices (world height 319)
-        Vec3d p1 = new Vec3d(x + size, 319 - cameraPos.y, z - size);
-        Vec3d p2 = new Vec3d(x - size, 319 - cameraPos.y, z - size);
-        Vec3d p3 = new Vec3d(x - size, 319 - cameraPos.y, z + size);
-        Vec3d p4 = new Vec3d(x + size, 319 - cameraPos.y, z + size);
+        double yTop = 319;
+        double yBottom = -64;
 
-        // Bottom vertices (world height -64)
-        Vec3d p5 = new Vec3d(x + size, -64 - cameraPos.y, z + size);
-        Vec3d p6 = new Vec3d(x - size, -64 - cameraPos.y, z + size);
-        Vec3d p7 = new Vec3d(x - size, -64 - cameraPos.y, z - size);
-        Vec3d p8 = new Vec3d(x + size, -64 - cameraPos.y, z - size);
+        Vec3d p1 = relPos.add(size, yTop, -size);
+        Vec3d p2 = relPos.add(-size, yTop, -size);
+        Vec3d p3 = relPos.add(-size, yTop, size);
+        Vec3d p4 = relPos.add(size, yTop, size);
+        Vec3d p5 = relPos.add(size, yBottom, size);
+        Vec3d p6 = relPos.add(-size, yBottom, size);
+        Vec3d p7 = relPos.add(-size, yBottom, -size);
+        Vec3d p8 = relPos.add(size, yBottom, -size);
 
-        // Render the vertical box
-        renderBox(vertexConsumers, matrices.peek().getPositionMatrix(), White, p1, p2, p3, p4, p5, p6, p7, p8, 1, 0, 0, 1, true, MinecraftClient.getInstance());
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.depthMask(false); // don’t write to depth
+        RenderSystem.enableDepthTest();
 
+        renderBox(vertexConsumers, matrices.peek().getPositionMatrix(), Red,
+                p1, p2, p3, p4, p5, p6, p7, p8,
+                1, 1, 1, 1, true, client);
+
+        RenderSystem.depthMask(true); // restore depth writing
     }
     public void moveBeam(Vec3d vector) {
         x += vector.x;

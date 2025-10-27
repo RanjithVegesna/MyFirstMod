@@ -17,6 +17,9 @@ public class ModClient implements ClientModInitializer {
         // Register codec on client side as well before registering receiver
         WorldRenderEvents.END.register(context -> {
             Render.renderBeam(context.matrixStack(), context.consumers());
+        });
+
+        WorldRenderEvents.AFTER_ENTITIES.register(context -> {
             OrbitalLazerCannonRendering.renderLazer(context.matrixStack(), context.consumers());
         });
 
