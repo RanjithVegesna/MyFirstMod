@@ -17,14 +17,15 @@ public class ModItems {
     public static final Item SWITCHER = registerItem("mob_switcher", new MobSwitcherItem(new Item.Settings()));
     public static final Item CARVER = registerItem("carver", new CarverItem(new Item.Settings()));
     public static final Item LAUNCHER = registerItem("launcher", new Launcher(new Item.Settings()));
+
     public static final Item RAILGUN = registerItem("railgun", new Railgun(new Item.Settings()));
+    public static final Item ORBITAL_LAZER_CANNON = registerItem("orbital_laser_cannon", new OrbitalLazerCannon(new Item.Settings()));
+    public static final Item GRAVITON_LAUNCHER = registerItem("graviton_launcher", new GravitonLauncher(new Item.Settings()));
 
     public static final Item REGENERATION_AMULET = registerItem("regeneration_amulet", new RegenerationAmulet(new Item.Settings()));
     public static final Item RESISTANCE_AMULET = registerItem("resistance_amulet", new ResistanceAmulet(new Item.Settings()));
     public static final Item SPEED_AMULET = registerItem("speed_amulet", new SpeedAmulet(new Item.Settings()));
     public static final Item STRENGTH_AMULET = registerItem("strength_amulet", new StrengthAmulet(new Item.Settings()));
-    public static final Item ORBITAL_LAZER_CANNON = registerItem("orbital_laser_cannon", new OrbitalLazerCannon(new Item.Settings()));
-
 
 
         public static Item registerItem(String name, Item item) {

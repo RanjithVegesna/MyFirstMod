@@ -12,6 +12,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import org.joml.Quaterniond;
+import org.joml.Vector3d;
 
 
 import static com.industry.textures.ModTextures.*;
@@ -103,4 +105,11 @@ public class RenderUtil {
         // RIGHT face
         renderQuadIfAir.accept(new Vec3d[]{p4, p3, p7, p8});
     }
+
+    public static Vec3d transform(Vec3d vec, Quaterniond quaternion) {
+        Vector3d vec3d = new Vector3d(vec.x, vec.y, vec.z);
+        quaternion.transform(vec3d);
+        return new Vec3d(vec3d.x, vec3d.y, vec3d.z);
+    }
+    
 }

@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -106,8 +107,18 @@ public class Railgun extends Item {
                             lightning.refreshPositionAfterTeleport(Vec3d.of(living.getBlockPos()));
                             world.spawnEntity(lightning);
                         }
+                        SkeletonEntity skeleton = EntityType.SKELETON.create(world);
+                        if (skeleton != null) {
+                            skeleton.copyPositionAndRotation(living);
+                            skeleton.setAiDisabled(true);
+                            skeleton.setInvulnerable(true);
+
+                        }
                         living.playSound(SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, 10.0f, 0.5f);
                         living.discard();
+                        if(!(living instanceof SkeletonEntity)) {
+                            world.spawnEntity(skeleton);
+                        }
                     }
                 }
 

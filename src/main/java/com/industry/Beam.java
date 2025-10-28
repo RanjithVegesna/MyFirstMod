@@ -44,16 +44,11 @@ public class Beam{
         Vec3d p7 = relPos.add(-size, yBottom, -size);
         Vec3d p8 = relPos.add(size, yBottom, -size);
 
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.depthMask(false); // don’t write to depth
-        RenderSystem.enableDepthTest();
-
         renderBox(vertexConsumers, matrices.peek().getPositionMatrix(), Red,
                 p1, p2, p3, p4, p5, p6, p7, p8,
-                1, 1, 1, 1, true, client);
+                1, 0, 0, 1, false, client);
 
-        RenderSystem.depthMask(true); // restore depth writing
+
     }
     public void moveBeam(Vec3d vector) {
         x += vector.x;
