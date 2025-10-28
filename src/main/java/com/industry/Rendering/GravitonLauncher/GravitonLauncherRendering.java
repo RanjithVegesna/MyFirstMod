@@ -10,7 +10,7 @@ public class GravitonLauncherRendering {
     public Vec3d center = new Vec3d(0, 0, 0);
     public boolean isActive = false;
     public States currentState = States.NONE;
-    public States previousState
+    public States previousState;
     public long startTick = 0;
 
     private double x, y, z , w;
