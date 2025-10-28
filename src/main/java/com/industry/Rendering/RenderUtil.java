@@ -1,6 +1,5 @@
-package com.industry;
+package com.industry.Rendering;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -9,14 +8,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
 import org.joml.Quaterniond;
 import org.joml.Vector3d;
-
-
-import static com.industry.textures.ModTextures.*;
 
 public class RenderUtil {
 
@@ -111,5 +104,5 @@ public class RenderUtil {
         quaternion.transform(vec3d);
         return new Vec3d(vec3d.x, vec3d.y, vec3d.z);
     }
-    
+
 }

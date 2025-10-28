@@ -1,6 +1,6 @@
-package com.industry;
+package com.industry.Rendering.Railgun;
 
-import com.industry.item.ModItems;
+import com.industry.Rendering.RenderUtil;
 import com.industry.item.RailgunClientState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;

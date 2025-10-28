@@ -10,7 +10,7 @@
   "item.industry.launcher" : "Launcher",
   "item.industry.railgun" : "Railgun",
   "item.industry.orbital_laser_cannon" : "Orbital Laser Cannon",
-  "item.industry.graviton_launcher" : "Graviton Launcher",
+  "item.industry.graviton_launcher" : "Graviton Blaster",
 
   "death.attack.railgun": "%1$s was vaporized by %2$s",
 

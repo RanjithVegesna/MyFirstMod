@@ -1,15 +1,12 @@
-package com.industry;
+package com.industry.Rendering.OrbitalLaserCannon;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
-import org.joml.Vector3d;
 
-import static com.industry.RenderUtil.renderBox;
+import static com.industry.Rendering.RenderUtil.renderBox;
 import static com.industry.textures.ModTextures.Red;
-import static com.industry.textures.ModTextures.White;
 
 public class Beam{
     public double x;

@@ -1,11 +1,12 @@
-package com.industry;
+package com.industry.Rendering.OrbitalLaserCannon;
 
+import com.industry.Mod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
 
-import com.industry.Beam.State;
+import com.industry.Rendering.OrbitalLaserCannon.Beam.State;
 
 import java.util.ArrayList;
 import java.util.List;
