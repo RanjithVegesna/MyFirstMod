@@ -1,10 +1,13 @@
 package com.industry.item;
 
 import com.industry.Mod;
+import com.industry.packets.GravitonLauncherPayload;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
@@ -36,7 +39,11 @@ public class GravitonLauncher extends Item {
             if (world.getBlockState(hitPosition).isAir()) {
                 timeWhenHit = world.getTime();
                 hitPos = hitPosition;
-                areaOfEffectBox = null; // Reset box for this shot
+                areaOfEffectBox = null;
+                GravitonLauncherPayload payload = new GravitonLauncherPayload(hitPosition.toCenterPos());
+                if (user instanceof ServerPlayerEntity serverPlayer) {
+                    ServerPlayNetworking.send(serverPlayer, payload);
+                }
             }
         }
         return TypedActionResult.pass(user.getStackInHand(hand));

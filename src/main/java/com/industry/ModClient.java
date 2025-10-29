@@ -1,8 +1,10 @@
 package com.industry;
 
+import com.industry.Rendering.GravitonLauncher.GravitonLauncherRendering;
 import com.industry.Rendering.OrbitalLaserCannon.OrbitalLazerCannonRendering;
 import com.industry.Rendering.Railgun.Render;
 import com.industry.item.RailgunClientState;
+import com.industry.packets.GravitonLauncherPayload;
 import com.industry.packets.OrbitalLazerCannonPayload;
 import com.industry.packets.RailgunFlagsPayload;
 import net.fabricmc.api.ClientModInitializer;
@@ -14,6 +16,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 
 public class ModClient implements ClientModInitializer {
+
+    public GravitonLauncherRendering rendering = new GravitonLauncherRendering();
+
     @Override
     public void onInitializeClient() {
         // Register codec on client side as well before registering receiver
@@ -23,6 +28,7 @@ public class ModClient implements ClientModInitializer {
 
         WorldRenderEvents.AFTER_ENTITIES.register(context -> {
             OrbitalLazerCannonRendering.renderLazer(context.matrixStack(), context.consumers());
+            rendering.render(context.consumers(), context.matrixStack());
         });
 
         ClientPlayNetworking.registerGlobalReceiver(RailgunFlagsPayload.ID, (payload, context) -> {
@@ -50,8 +56,14 @@ public class ModClient implements ClientModInitializer {
 
         ClientPlayNetworking.registerGlobalReceiver(OrbitalLazerCannonPayload.ID, (payload, context) -> {
             context.client().execute(() -> {
-                Mod.LOGGER.info("Vector from packet {}", payload.vec);
                 OrbitalLazerCannonRendering.triggerStart(payload.vec);
+            });
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(GravitonLauncherPayload.ID, (payload, context) -> {
+            context.client().execute(() -> {
+                rendering.triggerStart(payload.vec);
+                Mod.LOGGER.info("Vector from packet {}", payload.vec);
             });
         });
     }

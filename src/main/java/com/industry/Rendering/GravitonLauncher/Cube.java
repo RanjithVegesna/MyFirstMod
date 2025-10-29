@@ -2,7 +2,6 @@ package com.industry.Rendering.GravitonLauncher;
 
 import com.industry.Rendering.RenderUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;

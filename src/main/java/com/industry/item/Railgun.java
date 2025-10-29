@@ -114,7 +114,7 @@ public class Railgun extends Item {
                             skeleton.setInvulnerable(true);
 
                         }
-                        living.playSound(SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, 10.0f, 0.5f);
+                        living.playSound(SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, 2.0f, 0.5f);
                         living.discard();
                         if(!(living instanceof SkeletonEntity)) {
                             world.spawnEntity(skeleton);
