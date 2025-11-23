@@ -1,5 +1,6 @@
 package com.industry.item;
 
+import com.ibm.icu.util.TimeUnitAmount;
 import com.industry.item.amulet.RegenerationAmulet;
 import com.industry.item.amulet.ResistanceAmulet;
 import com.industry.item.amulet.SpeedAmulet;
@@ -17,6 +18,8 @@ public class ModItems {
     public static final Item SWITCHER = registerItem("mob_switcher", new MobSwitcherItem(new Item.Settings()));
     public static final Item CARVER = registerItem("carver", new CarverItem(new Item.Settings()));
     public static final Item LAUNCHER = registerItem("launcher", new Launcher(new Item.Settings()));
+    public static final Item WOOL_WAND = registerItem("wand_of_wools", new WoolWand(new Item.Settings()));
+    public static final Item SPECTATOR = registerItem("spectator", new Spectator(new Item.Settings()));
 
     public static final Item RAILGUN = registerItem("railgun", new Railgun(new Item.Settings()));
     public static final Item ORBITAL_LAZER_CANNON = registerItem("orbital_laser_cannon", new OrbitalLazerCannon(new Item.Settings()));
@@ -45,11 +48,14 @@ public class ModItems {
             entries.add(SWITCHER);
             entries.add(CARVER);
             entries.add(LAUNCHER);
+            entries.add(WOOL_WAND);
+            entries.add(SPECTATOR);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
             entries.add(RAILGUN);
             entries.add(ORBITAL_LAZER_CANNON);
+            entries.add(GRAVITON_LAUNCHER);
         });
     }
 

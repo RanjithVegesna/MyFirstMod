@@ -25,7 +25,7 @@ public class Launcher extends Item {
 
         Mod.LOGGER.info("Velocity before launch = {}", user.getVelocity());
 
-        user.getItemCooldownManager().set(this, 200);
+//        user.getItemCooldownManager().set(this, 200);
         user.setVelocity(user.getVelocity().add(user.getRotationVec(1).multiply(10)));
 
         user.velocityModified = true;

@@ -4,6 +4,7 @@ import com.industry.Rendering.GravitonLauncher.GravitonLauncherRendering;
 import com.industry.Rendering.OrbitalLaserCannon.OrbitalLazerCannonRendering;
 import com.industry.Rendering.Railgun.Render;
 import com.industry.item.RailgunClientState;
+import com.industry.math.Vector3;
 import com.industry.packets.GravitonLauncherPayload;
 import com.industry.packets.OrbitalLazerCannonPayload;
 import com.industry.packets.RailgunFlagsPayload;
@@ -62,7 +63,7 @@ public class ModClient implements ClientModInitializer {
 
         ClientPlayNetworking.registerGlobalReceiver(GravitonLauncherPayload.ID, (payload, context) -> {
             context.client().execute(() -> {
-                rendering.triggerStart(payload.vec);
+                rendering.triggerStart(Vector3.from(payload.vec));
                 Mod.LOGGER.info("Vector from packet {}", payload.vec);
             });
         });

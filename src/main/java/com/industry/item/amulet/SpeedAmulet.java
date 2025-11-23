@@ -26,7 +26,7 @@ public class SpeedAmulet extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClient) {
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 9));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 255));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 300, 9));
             player.getItemCooldownManager().set(this, 600);
             LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);

@@ -8,4 +8,5 @@ public class ModTextures {
     public static final Identifier Green = Identifier.of(Mod.MOD_ID, "textures/render/green.png");
     public static final Identifier Blue = Identifier.of(Mod.MOD_ID, "textures/render/light_blue.png");
     public static final Identifier White = Identifier.of(Mod.MOD_ID, "textures/render/white.png");
+    public static final Identifier Graviton =  Identifier.of(Mod.MOD_ID, "textures/render/graviton.png");
 }

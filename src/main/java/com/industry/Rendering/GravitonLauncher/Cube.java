@@ -1,59 +1,95 @@
 package com.industry.Rendering.GravitonLauncher;
 
-import com.industry.Rendering.RenderUtil;
+import com.industry.math.Matrix3;
+import com.industry.math.Vector3;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
-import org.joml.Quaterniond;
-import org.joml.Vector3d;
 
+import static com.industry.Rendering.RenderUtil.renderBox;
+import static com.industry.textures.ModTextures.Graviton;
 import static com.industry.textures.ModTextures.White;
 
 public class Cube {
-    public double size;
-    private Vec3d vertex;
-    private Vec3d center;
 
-    Cube(Vec3d vertex, Vec3d center) {
-        this.vertex = vertex;
+    private Vector3 p1, p2, p3, p4, p5, p6, p7, p8;
+    private Vector3 center;
+    private double size;
+
+    public Cube(Vector3 center, double size) {
         this.center = center;
-        this.size = center.distanceTo(vertex) / Math.sqrt(3);
+        this.size = size;
+        updateCorners();
     }
 
+    /**
+     * Rotates the cube around its center in world coordinates.
+     *
+     * @param axis  rotation axis
+     * @param angle rotation angle (radians)
+     * @param twist optional twist angle
+     */
+    public void rotate(Vector3 axis, double angle, double twist) {
+        Matrix3 matrix = Matrix3.getTwistMatrix(axis, angle, twist);
+
+        // Rotate each corner relative to the center
+        p1 = matrix.transform(p1.subtract(center)).add(center);
+        p2 = matrix.transform(p2.subtract(center)).add(center);
+        p3 = matrix.transform(p3.subtract(center)).add(center);
+        p4 = matrix.transform(p4.subtract(center)).add(center);
+        p5 = matrix.transform(p5.subtract(center)).add(center);
+        p6 = matrix.transform(p6.subtract(center)).add(center);
+        p7 = matrix.transform(p7.subtract(center)).add(center);
+        p8 = matrix.transform(p8.subtract(center)).add(center);
+    }
+
+    /**
+     * Updates the corner positions of the cube based on current center and size.
+     */
+    private void updateCorners() {
+        double half = size / 2;
+
+        // Corners in world coordinates
+        p1 = center.add(new Vector3(-half, -half, -half)); // minX, minY, minZ
+        p2 = center.add(new Vector3(-half, +half, -half)); // minX, maxY, minZ
+        p3 = center.add(new Vector3(+half, +half, -half)); // maxX, maxY, minZ
+        p4 = center.add(new Vector3(+half, -half, -half)); // maxX, minY, minZ
+
+        p5 = center.add(new Vector3(-half, -half, +half)); // minX, minY, maxZ
+        p6 = center.add(new Vector3(-half, +half, +half)); // minX, maxY, maxZ
+        p7 = center.add(new Vector3(+half, +half, +half)); // maxX, maxY, maxZ
+        p8 = center.add(new Vector3(+half, -half, +half)); // maxX, minY, maxZ
+    }
+
+    /**
+     * Sets a new cube size and updates corners.
+     */
     public void setSize(double newSize) {
-        Vec3d offset = vertex.subtract(center);
-        double scale = newSize / this.size;
-        offset = offset.multiply(scale);
-        vertex = center.add(offset);
         this.size = newSize;
-    }
-    public void rotate(Quaterniond quaternion) {
-        Vector3d offset = new Vector3d(vertex.x - center.x, vertex.y - center.y, vertex.z - center.z);
-
-        quaternion.transform(offset);
-
-        vertex = new Vec3d(center.x + offset.x, center.y + offset.y, center.z + offset.z);
+        updateCorners();
     }
 
+    /**
+     * Updates the cube's center (world coordinates) and recalculates corners.
+     */
+    public void setCenter(Vector3 newCenter) {
+        this.center = newCenter;
+        updateCorners();
+    }
+
+    /**
+     * Renders the cube using world coordinates.
+     */
     public void render(VertexConsumerProvider vertexConsumers, MatrixStack matrices, float r, float g, float b, float a) {
-        // specific order for renderBox
-        Vec3d offset = vertex.subtract(center);
-
-        double dx = offset.x;
-        double dy = offset.y;
-        double dz = offset.z;
-
-        Vec3d p1 = new Vec3d(center.x - dx, center.y - dy, center.z - dz);
-        Vec3d p2 = new Vec3d(center.x - dx, center.y + dy, center.z - dz);
-        Vec3d p3 = new Vec3d(center.x + dx, center.y + dy, center.z - dz);
-        Vec3d p4 = new Vec3d(center.x + dx, center.y - dy, center.z - dz);
-
-        Vec3d p5 = new Vec3d(center.x - dx, center.y - dy, center.z + dz);
-        Vec3d p6 = new Vec3d(center.x - dx, center.y + dy, center.z + dz);
-        Vec3d p7 = new Vec3d(center.x + dx, center.y + dy, center.z + dz);
-        Vec3d p8 = new Vec3d(center.x + dx, center.y - dy, center.z + dz);
-
-        RenderUtil.renderBox(vertexConsumers, matrices.peek().getPositionMatrix(), White, p1, p2, p3, p4, p5, p6, p7, p8, r, g, b, a, false, MinecraftClient.getInstance());
+        Vec3d cameraPos = MinecraftClient.getInstance().player.getCameraPosVec(1.0F);
+        renderBox(
+                vertexConsumers,
+                matrices.peek().getPositionMatrix(),
+                Graviton,
+                p1.toVec3d().subtract(cameraPos), p2.toVec3d().subtract(cameraPos), p3.toVec3d().subtract(cameraPos), p4.toVec3d().subtract(cameraPos),
+                p5.toVec3d().subtract(cameraPos), p6.toVec3d().subtract(cameraPos), p7.toVec3d().subtract(cameraPos), p8.toVec3d().subtract(cameraPos),
+                r, g, b, a
+                );
     }
 }

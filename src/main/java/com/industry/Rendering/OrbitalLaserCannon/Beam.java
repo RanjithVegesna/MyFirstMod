@@ -43,7 +43,7 @@ public class Beam{
 
         renderBox(vertexConsumers, matrices.peek().getPositionMatrix(), Red,
                 p1, p2, p3, p4, p5, p6, p7, p8,
-                1, 0, 0, 1, false, client);
+                1, 0, 0, 1);
 
 
     }

@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 
+import static com.industry.Rendering.RenderUtil.renderBox;
 import static com.industry.textures.ModTextures.White;
 
 public class Render {
@@ -129,13 +130,13 @@ public class Render {
         Vec3d rp7 = p7.subtract(cameraPos);
         Vec3d rp8 = p8.subtract(cameraPos);
 
-        RenderUtil.renderBox(
+        renderBox(
                 vertexConsumers,
                 matrices.peek().getPositionMatrix(),
                 White,
                 rp1, rp2, rp3, rp4,
                 rp5, rp6, rp7, rp8,
-                red, green, blue, alpha, false, MinecraftClient.getInstance()
+                red, green, blue, alpha
         );
     }
 }
