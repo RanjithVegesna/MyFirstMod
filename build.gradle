@@ -35,6 +35,9 @@ dependencies {
 
     implementation "org.joml:joml:1.10.5"
 
+    implementation files('lib/private-lib.jar')
+
+
 }
 
 processResources {

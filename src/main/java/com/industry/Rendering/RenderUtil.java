@@ -15,7 +15,7 @@ public class RenderUtil {
                 .color(r, g, b, a)
                 .texture(u, v)
                 .overlay(0, 0)
-                .light(0xF000F0, 0xF000F0)
+                .light(0xF000F0)
                 .normal((float) normal.x, (float) normal.y, (float) normal.z);
     }
 

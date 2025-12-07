@@ -1,5 +1,6 @@
 package com.industry.item;
 
+import classes.Table;
 import com.industry.Mod;
 import com.industry.packets.OrbitalLazerCannonPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -13,63 +14,93 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import net.minecraft.world.RaycastContext;
+import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrbitalLazerCannon extends Item {
 
-    public long lastTimeUsed = 0;
-    public int delay = 120;
-    public BlockPos blockPos;
+    public static final int DELAY = 120;
+    public static Table playerTable;
 
     public OrbitalLazerCannon(Settings settings) {
         super(settings);
     }
 
-        @Override
-        public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-            if (world.isClient) return TypedActionResult.pass(user.getStackInHand(hand));
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        if (playerTable == null) {
+            playerTable = new Table(new ArrayList<Class<?>>(List.of(PlayerEntity.class, BlockPos.class, Integer.class)));
+            playerTable.nameColumns(new ArrayList<>(List.of("player", "hitPos", "time")));
+        }
+        ItemStack stack = user.getStackInHand(hand);
 
-            Vec3d start = user.getPos().add(0, user.getStandingEyeHeight(), 0); // player eyes
-            Vec3d direction = user.getRotationVec(1.0F); // normalized look direction
-            Vec3d end = start.add(direction.multiply(500)); // 500 blocks forward
+        if (world.isClient) return TypedActionResult.pass(stack);
 
-            RaycastContext context = new RaycastContext(
-                    start,
-                    end,
-                    RaycastContext.ShapeType.OUTLINE,
-                    RaycastContext.FluidHandling.NONE,
-                    user
-            );
+        // Start and end for raycast
+        Vec3d eyePos = user.getPos().add(0, user.getStandingEyeHeight(), 0);
+        Vec3d direction = user.getRotationVec(1.0F);
+        Vec3d end = eyePos.add(direction.multiply(500));
 
-            BlockHitResult hitResult = world.raycast(context);
+        RaycastContext context = new RaycastContext(
+                eyePos, end,
+                RaycastContext.ShapeType.OUTLINE,
+                RaycastContext.FluidHandling.NONE,
+                user
+        );
 
-            if (hitResult.getType() == BlockHitResult.Type.BLOCK) {
-                BlockPos targetPos = hitResult.getBlockPos();
-                Mod.LOGGER.info("Target Vector at ({}, {}, {})", targetPos.getX(), targetPos.getY(), targetPos.getZ());
-                OrbitalLazerCannonPayload payload = new OrbitalLazerCannonPayload(targetPos.toCenterPos());
-                if (user instanceof ServerPlayerEntity serverPlayer) {
-                    ServerPlayNetworking.send(serverPlayer, payload);
-                }
-                blockPos = targetPos;
+        BlockHitResult result = world.raycast(context);
 
-                lastTimeUsed = world.getTime();
-            } else {
-                return TypedActionResult.pass(user.getStackInHand(hand));
+        if (result.getType() == BlockHitResult.Type.BLOCK) {
+            BlockPos pos = result.getBlockPos();
+
+            Mod.LOGGER.info("Orbital Target: {}", pos);
+
+            playerTable.add(user, pos, world.getTime());
+
+            // Send packet to client to draw warning / beam animation
+            if (user instanceof ServerPlayerEntity serverPlayer) {
+                ServerPlayNetworking.send(
+                        serverPlayer,
+                        new OrbitalLazerCannonPayload(pos.toCenterPos())
+                );
             }
-            return TypedActionResult.pass(user.getStackInHand(hand));
         }
 
-        @Override
-        public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-            if (world.isClient) return;
-            if (blockPos != null && world.getTime() >= lastTimeUsed + delay) {
-                for (int i = 319; i > -64; i -= 10) {
-                    world.createExplosion(null, blockPos.getX(), i, blockPos.getZ(), 35, World.ExplosionSourceType.TNT);
-                }
-                blockPos = null; // reset so it doesn’t keep exploding
-            }
-            super.inventoryTick(stack, world, entity, slot, selected);
-        }
+        return TypedActionResult.success(stack);
+    }
 
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        if (world.isClient) return;
+        for (PlayerEntity player : world.getPlayers()) {
+
+            Integer lastTime = (Integer) playerTable.query("time", "player", player);
+            BlockPos pos = (BlockPos) playerTable.query("hitPos", "player", player);
+            // Gun was never fired
+            if (lastTime == null) continue;
+
+            long currentTime = world.getTime();
+
+            if (currentTime < lastTime + DELAY) continue; // wait until 6 seconds have passed
+
+            // NUKE RAIN (your vertical explosion chain)
+            for (int i = 319; i > -64; i -= 10) {
+                world.createExplosion(
+                        null,
+                        pos.getX(),
+                        i,
+                        pos.getZ(),
+                        35,
+                        World.ExplosionSourceType.TNT
+                );
+            }
+
+            // Clear stored data so it doesn't fire again
+            playerTable.delete(player, "player");
+        }
+        super.inventoryTick(stack, world, entity, slot, selected);
+    }
 }

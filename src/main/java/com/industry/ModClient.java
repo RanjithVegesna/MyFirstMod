@@ -12,6 +12,10 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.model.ModelCuboidData;
+import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
@@ -22,6 +26,7 @@ public class ModClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+//        ModelPart.Cuboid
         // Register codec on client side as well before registering receiver
         WorldRenderEvents.END.register(context -> {
             Render.renderBeam(context.matrixStack(), context.consumers());

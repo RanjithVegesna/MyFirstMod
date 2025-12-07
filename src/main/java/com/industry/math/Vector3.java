@@ -53,6 +53,10 @@ public final class Vector3 {
         return len == 0 ? ZERO : new Vector3(x / len, y / len, z / len);
     }
 
+    public Vector3 applyNonLinear(NonLinearFunc function) {
+        return function.apply(this);
+    }
+
     public Vec3d toVec3d() {
         return new Vec3d(x, y, z);
     }

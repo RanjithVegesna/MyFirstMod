@@ -1,6 +1,7 @@
 package com.industry;
 
 import com.industry.Blocks.ModBlocks;
+import com.industry.Commands.YeetCommand;
 import com.industry.item.Launcher;
 import com.industry.item.ModItems;
 import com.industry.item.amulet.RegenerationAmulet;
@@ -11,10 +12,12 @@ import com.industry.packets.RailgunFlagsPayload;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.entity.player.PlayerEntity;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+
 
 public class Mod implements ModInitializer {
 	public static final String MOD_ID = "industry";
@@ -35,6 +38,7 @@ public class Mod implements ModInitializer {
         LOGGER.info("Initializing Packets of" + MOD_ID);
         ModNetworking.register();
         LOGGER.info("Registered Packets of" + MOD_ID);
+        YeetCommand.register();
 
         ServerTickEvents.END_WORLD_TICK.register(world -> {
             for (PlayerEntity player : world.getPlayers()) {
@@ -46,7 +50,7 @@ public class Mod implements ModInitializer {
                 if (Launcher.lowFrictionPlayers.contains(player)) {
                     Vec3d velocity = player.getVelocity();
                     if (!player.isOnGround() && !player.isTouchingWater() && !player.isInLava()) {
-                        if (velocity.y > 0) { // only apply boost when still rising
+                        if (velocity.y > 0) {
                             player.setVelocity(velocity.multiply(1.05));
                             player.velocityModified = true;
                         }
