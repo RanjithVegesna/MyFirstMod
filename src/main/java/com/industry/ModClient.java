@@ -1,5 +1,6 @@
 package com.industry;
 
+import com.industry.Rendering.DebugRender;
 import com.industry.Rendering.GravitonLauncher.GravitonLauncherRendering;
 import com.industry.Rendering.OrbitalLaserCannon.OrbitalLazerCannonRendering;
 import com.industry.Rendering.Railgun.Render;
@@ -33,8 +34,9 @@ public class ModClient implements ClientModInitializer {
         });
 
         WorldRenderEvents.AFTER_ENTITIES.register(context -> {
-            OrbitalLazerCannonRendering.renderLazer(context.matrixStack(), context.consumers());
-            rendering.render(context.consumers(), context.matrixStack());
+//            rendering.render(context.consumers(), context.matrixStack());
+            DebugRender.render(context.consumers(), context.matrixStack());
+//            OrbitalLazerCannonRendering.renderLazer(context.matrixStack(), context.consumers());
         });
 
         ClientPlayNetworking.registerGlobalReceiver(RailgunFlagsPayload.ID, (payload, context) -> {

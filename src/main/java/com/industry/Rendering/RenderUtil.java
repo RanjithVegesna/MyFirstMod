@@ -78,52 +78,63 @@ public class RenderUtil {
 
         // Front face (p1,p2,p3,p4)
         vertexConsumer(vertexConsumer, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 0f, 1f, frontNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 0f, 1f, frontNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p2.x, (float) p2.y, (float) p2.z, r, g, b, a, 1f, 1f, frontNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p3.x, (float) p3.y, (float) p3.z, r, g, b, a, 1f, 0f, frontNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 0f, 1f, frontNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 0f, 1f, frontNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p3.x, (float) p3.y, (float) p3.z, r, g, b, a, 1f, 0f, frontNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p4.x, (float) p4.y, (float) p4.z, r, g, b, a, 0f, 0f, frontNormal);
 
         // Back face (p5,p6,p7,p8)
         vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p6.x, (float) p6.y, (float) p6.z, r, g, b, a, 1f, 1f, backNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p7.x, (float) p7.y, (float) p7.z, r, g, b, a, 1f, 0f, backNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p7.x, (float) p7.y, (float) p7.z, r, g, b, a, 1f, 0f, backNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p8.x, (float) p8.y, (float) p8.z, r, g, b, a, 0f, 0f, backNormal);
 
         // Top face (p5,p6,p2,p1)
         vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, topNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p6.x, (float) p6.y, (float) p6.z, r, g, b, a, 1f, 1f, topNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p2.x, (float) p2.y, (float) p2.z, r, g, b, a, 1f, 0f, topNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, topNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p2.x, (float) p2.y, (float) p2.z, r, g, b, a, 1f, 0f, topNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 0f, 0f, topNormal);
 
         // Bottom face (p4,p3,p7,p8)
         vertexConsumer(vertexConsumer, matrix, (float) p4.x, (float) p4.y, (float) p4.z, r, g, b, a, 0f, 1f, bottomNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p4.x, (float) p4.y, (float) p4.z, r, g, b, a, 0f, 1f, bottomNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p3.x, (float) p3.y, (float) p3.z, r, g, b, a, 1f, 1f, bottomNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p7.x, (float) p7.y, (float) p7.z, r, g, b, a, 1f, 0f, bottomNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p4.x, (float) p4.y, (float) p4.z, r, g, b, a, 0f, 1f, bottomNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p4.x, (float) p4.y, (float) p4.z, r, g, b, a, 0f, 1f, bottomNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p7.x, (float) p7.y, (float) p7.z, r, g, b, a, 1f, 0f, bottomNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p8.x, (float) p8.y, (float) p8.z, r, g, b, a, 0f, 0f, bottomNormal);
 
         // Left face (p5,p1,p4,p8)
         vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, leftNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, leftNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 1f, 1f, leftNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p4.x, (float) p4.y, (float) p4.z, r, g, b, a, 1f, 0f, leftNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, leftNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, leftNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p4.x, (float) p4.y, (float) p4.z, r, g, b, a, 1f, 0f, leftNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p8.x, (float) p8.y, (float) p8.z, r, g, b, a, 0f, 0f, leftNormal);
 
         // Right face (p2,p6,p7,p3)
         vertexConsumer(vertexConsumer, matrix, (float) p2.x, (float) p2.y, (float) p2.z, r, g, b, a, 0f, 1f, rightNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p2.x, (float) p2.y, (float) p2.z, r, g, b, a, 0f, 1f, rightNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p6.x, (float) p6.y, (float) p6.z, r, g, b, a, 1f, 1f, rightNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p7.x, (float) p7.y, (float) p7.z, r, g, b, a, 1f, 0f, rightNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p2.x, (float) p2.y, (float) p2.z, r, g, b, a, 0f, 1f, rightNormal);
+        vertexConsumer(vertexConsumer, matrix, (float) p2.x, (float) p2.y, (float) p2.z, r, g, b, a, 0f, 1f, rightNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p7.x, (float) p7.y, (float) p7.z, r, g, b, a, 1f, 0f, rightNormal);
         vertexConsumer(vertexConsumer, matrix, (float) p3.x, (float) p3.y, (float) p3.z, r, g, b, a, 0f, 0f, rightNormal);
-
         RenderSystem.enableCull();
     }
 
