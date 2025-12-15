@@ -1,6 +1,8 @@
 package com.industry.Rendering.OrbitalLaserCannon;
 
+import com.industry.Rendering.Railgun.Render;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
@@ -41,7 +43,7 @@ public class Beam{
         Vec3d p7 = relPos.add(-size, yBottom, -size);
         Vec3d p8 = relPos.add(size, yBottom, -size);
 
-        renderBox(vertexConsumers, matrices.peek().getPositionMatrix(), Red,
+        renderBox(vertexConsumers.getBuffer(RenderLayer.getEntityAlpha(Red)), matrices.peek().getPositionMatrix(),
                 p1, p2, p3, p4, p5, p6, p7, p8,
                 1, 0, 0, 1);
 

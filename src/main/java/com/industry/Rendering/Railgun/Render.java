@@ -2,7 +2,9 @@ package com.industry.Rendering.Railgun;
 
 import com.industry.Rendering.RenderUtil;
 import com.industry.item.RailgunClientState;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
@@ -131,9 +133,8 @@ public class Render {
         Vec3d rp8 = p8.subtract(cameraPos);
 
         renderBox(
-                vertexConsumers,
+                vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(White)),
                 matrices.peek().getPositionMatrix(),
-                White,
                 rp1, rp2, rp3, rp4,
                 rp5, rp6, rp7, rp8,
                 red, green, blue, alpha

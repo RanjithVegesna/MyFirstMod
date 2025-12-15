@@ -65,7 +65,7 @@ public class GravitonLauncher extends Item {
                 }
 
                 if (areaOfEffectBox != null) {
-                    List<Entity> Entities = world.getEntitiesByClass(Entity.class, areaOfEffectBox, e -> e != player);
+                    List<Entity> Entities = world.getEntitiesByClass(Entity.class, areaOfEffectBox, e -> true);
                     for (Entity Entity : Entities) {
                         Vec3d effectPos = Vec3d.ofCenter(hitPos);
                         Vec3d delta = effectPos.subtract(Entity.getPos());

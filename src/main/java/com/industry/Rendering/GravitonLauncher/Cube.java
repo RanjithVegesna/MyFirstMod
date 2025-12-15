@@ -3,6 +3,7 @@ package com.industry.Rendering.GravitonLauncher;
 import com.industry.math.Matrix3;
 import com.industry.math.Vector3;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
@@ -84,9 +85,8 @@ public class Cube {
     public void render(VertexConsumerProvider vertexConsumers, MatrixStack matrices, float r, float g, float b, float a) {
         Vec3d cameraPos = MinecraftClient.getInstance().player.getCameraPosVec(1.0F);
         renderBox(
-                vertexConsumers,
+                vertexConsumers.getBuffer(RenderLayer.getEntityAlpha(Graviton)),
                 matrices.peek().getPositionMatrix(),
-                Graviton,
                 p1.toVec3d().subtract(cameraPos), p2.toVec3d().subtract(cameraPos), p3.toVec3d().subtract(cameraPos), p4.toVec3d().subtract(cameraPos),
                 p5.toVec3d().subtract(cameraPos), p6.toVec3d().subtract(cameraPos), p7.toVec3d().subtract(cameraPos), p8.toVec3d().subtract(cameraPos),
                 r, g, b, a

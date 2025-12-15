@@ -1,22 +1,25 @@
 package com.industry;
 
+import classes.Table;
 import com.industry.Blocks.ModBlocks;
-import com.industry.Commands.YeetCommand;
+import com.industry.Commands.ModCommands;
 import com.industry.item.Launcher;
 import com.industry.item.ModItems;
 import com.industry.item.amulet.RegenerationAmulet;
 import com.industry.item.amulet.ResistanceAmulet;
 import com.industry.item.amulet.SpeedAmulet;
 import com.industry.item.amulet.StrengthAmulet;
-import com.industry.packets.RailgunFlagsPayload;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.entity.player.PlayerEntity;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 
 public class Mod implements ModInitializer {
@@ -26,9 +29,15 @@ public class Mod implements ModInitializer {
 
     public static boolean hit = false;
 
+    public static Table playerDataTable = new Table(List.of(UUID.class, BlockPos.class, BlockPos.class));
+    public static HashMap<UUID, PlayerEntity> playerEntityMap = new HashMap<>();
+
 	@Override
 	public void onInitialize() {
 
+        playerDataTable.nameColumns(List.of("UUID", "Pos1", "Pos2"));
+        PlayerLeaveListener.register();
+        PlayerLoginListener.register();
         LOGGER.info("Initializing Items of" + MOD_ID);
         ModItems.registerModItems();
         LOGGER.info("Registered Items of" + MOD_ID);
@@ -38,7 +47,7 @@ public class Mod implements ModInitializer {
         LOGGER.info("Initializing Packets of" + MOD_ID);
         ModNetworking.register();
         LOGGER.info("Registered Packets of" + MOD_ID);
-        YeetCommand.register();
+        ModCommands.register();
 
         ServerTickEvents.END_WORLD_TICK.register(world -> {
             for (PlayerEntity player : world.getPlayers()) {

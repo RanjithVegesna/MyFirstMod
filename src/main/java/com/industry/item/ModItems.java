@@ -29,6 +29,7 @@ public class ModItems {
     public static final Item RESISTANCE_AMULET = registerItem("resistance_amulet", new ResistanceAmulet(new Item.Settings()));
     public static final Item SPEED_AMULET = registerItem("speed_amulet", new SpeedAmulet(new Item.Settings()));
     public static final Item STRENGTH_AMULET = registerItem("strength_amulet", new StrengthAmulet(new Item.Settings()));
+    public static final Item WorldEditAxe =  registerItem("world_edit_axe", new WorldEditAxe(new Item.Settings()));
 
 
         public static Item registerItem(String name, Item item) {
@@ -50,6 +51,7 @@ public class ModItems {
             entries.add(LAUNCHER);
             entries.add(WOOL_WAND);
             entries.add(SPECTATOR);
+            entries.add(WorldEditAxe);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {

@@ -78,7 +78,7 @@ public class GravitonLauncherRendering {
             z += deltaZ;
         }
 
-//        cube.rotate(new Vector3(x, y, z), theta, 0);
+        cube.rotate(new Vector3(x, y, z), theta, 0);
         cube.render(vertexConsumer, matrixStack, 1, 1, 1, 1);
     }
 }
