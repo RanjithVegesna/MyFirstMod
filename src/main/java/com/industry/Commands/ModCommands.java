@@ -6,5 +6,6 @@ public class ModCommands {
         Up.register();
         Thru.register();
         Fill.register();
+        Box.register();
     }
 }

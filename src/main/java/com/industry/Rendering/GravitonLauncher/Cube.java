@@ -85,7 +85,7 @@ public class Cube {
     public void render(VertexConsumerProvider vertexConsumers, MatrixStack matrices, float r, float g, float b, float a) {
         Vec3d cameraPos = MinecraftClient.getInstance().player.getCameraPosVec(1.0F);
         renderBox(
-                vertexConsumers.getBuffer(RenderLayer.getEntityAlpha(Graviton)),
+                vertexConsumers.getBuffer(RenderLayer.getEndGateway()),
                 matrices.peek().getPositionMatrix(),
                 p1.toVec3d().subtract(cameraPos), p2.toVec3d().subtract(cameraPos), p3.toVec3d().subtract(cameraPos), p4.toVec3d().subtract(cameraPos),
                 p5.toVec3d().subtract(cameraPos), p6.toVec3d().subtract(cameraPos), p7.toVec3d().subtract(cameraPos), p8.toVec3d().subtract(cameraPos),

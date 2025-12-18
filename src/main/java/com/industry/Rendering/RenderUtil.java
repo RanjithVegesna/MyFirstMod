@@ -69,7 +69,7 @@ public class RenderUtil {
         // Compute normals for each face
         Vec3d frontNormal = p2.subtract(p1).crossProduct(p3.subtract(p1)).normalize();
         Vec3d backNormal = p6.subtract(p5).crossProduct(p7.subtract(p5)).normalize();
-        Vec3d topNormal = p5.subtract(p1).crossProduct(p2.subtract(p1)).normalize();
+        Vec3d topNormal = p2.subtract(p1).crossProduct(p5.subtract(p1)).normalize();
         Vec3d bottomNormal = p4.subtract(p3).crossProduct(p7.subtract(p3)).normalize();
         Vec3d leftNormal = p5.subtract(p1).crossProduct(p4.subtract(p1)).normalize();
         Vec3d rightNormal = p2.subtract(p6).crossProduct(p7.subtract(p6)).normalize();
@@ -85,14 +85,14 @@ public class RenderUtil {
         vertexConsumer(vertex, matrix, (float) p4.x, (float) p4.y, (float) p4.z, r, g, b, a, 0f, 0f, frontNormal);
 
         // Back face (p5,p6,p7,p8)
-        vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
-        vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
-        vertexConsumer(vertex, matrix, (float) p6.x, (float) p6.y, (float) p6.z, r, g, b, a, 1f, 1f, backNormal);
-        vertexConsumer(vertex, matrix, (float) p7.x, (float) p7.y, (float) p7.z, r, g, b, a, 1f, 0f, backNormal);
-        vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
-        vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
-        vertexConsumer(vertex, matrix, (float) p7.x, (float) p7.y, (float) p7.z, r, g, b, a, 1f, 0f, backNormal);
-        vertexConsumer(vertex, matrix, (float) p8.x, (float) p8.y, (float) p8.z, r, g, b, a, 0f, 0f, backNormal);
+        vertexConsumer(vertex, matrix, (float) p8.x, (float) p8.y, (float) p8.z, r, g, b, a, 0f, 1f, backNormal);
+        vertexConsumer(vertex, matrix, (float) p8.x, (float) p8.y, (float) p8.z, r, g, b, a, 0f, 1f, backNormal);
+        vertexConsumer(vertex, matrix, (float) p7.x, (float) p7.y, (float) p7.z, r, g, b, a, 1f, 1f, backNormal);
+        vertexConsumer(vertex, matrix, (float) p6.x, (float) p6.y, (float) p6.z, r, g, b, a, 1f, 0f, backNormal);
+        vertexConsumer(vertex, matrix, (float) p8.x, (float) p8.y, (float) p8.z, r, g, b, a, 0f, 1f, backNormal);
+        vertexConsumer(vertex, matrix, (float) p8.x, (float) p8.y, (float) p8.z, r, g, b, a, 0f, 1f, backNormal);
+        vertexConsumer(vertex, matrix, (float) p6.x, (float) p6.y, (float) p6.z, r, g, b, a, 1f, 0f, backNormal);
+        vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 0f, backNormal);
 
         // Top face (p5,p6,p2,p1)
         vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, topNormal);

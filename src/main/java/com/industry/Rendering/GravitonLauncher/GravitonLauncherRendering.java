@@ -58,7 +58,7 @@ public class GravitonLauncherRendering {
 
         // CHARGE phase: grow cube smoothly
         if (currentState == States.CHARGE) {
-            size = 0.5 + ((double) elapsed / 50.0); // slower growth
+            size = 0.5 + ((double) elapsed / 20.0); // slower growth
             cube.setSize(size);
         }
 
