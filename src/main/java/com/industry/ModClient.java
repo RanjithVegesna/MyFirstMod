@@ -1,5 +1,8 @@
 package com.industry;
 
+import com.industry.Blocks.ModBlockEntities;
+import com.industry.HUD.ModHUD;
+import com.industry.Rendering.BeaconBeamTrapRender;
 import com.industry.Rendering.GravitonLauncher.GravitonLauncherRendering;
 import com.industry.Rendering.OrbitalLaserCannon.OrbitalLazerCannonRendering;
 import com.industry.Rendering.Railgun.Render;
@@ -10,6 +13,8 @@ import com.industry.packets.OrbitalLazerCannonPayload;
 import com.industry.packets.RailgunFlagsPayload;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelCuboidData;
@@ -26,8 +31,12 @@ public class ModClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-//        ModelPart.Cuboid
-        // Register codec on client side as well before registering receiver
+        ModHUD.start();
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.BEACON_BEAM_TRAP,
+                BeaconBeamTrapRender::new
+        );
+
         WorldRenderEvents.END.register(context -> {
             Render.renderBeam(context.matrixStack(), context.consumers());
         });

@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
+import static com.industry.Commands.CommandManager.isValid;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
@@ -40,6 +41,8 @@ public class Box {
     }
 
     private static int run(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+        if(!isValid(context)) return 0;
+
         Random random = new Random();
         PlayerEntity player = context.getSource().getPlayer();
         World world = context.getSource().getWorld();

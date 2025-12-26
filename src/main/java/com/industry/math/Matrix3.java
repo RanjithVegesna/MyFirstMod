@@ -1,5 +1,6 @@
 package com.industry.math;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Matrix3 {
@@ -79,5 +80,13 @@ public class Matrix3 {
         }
 
         return rotation;
+    }
+
+    public static Matrix3 getScaleMatrix(double scaleX, double scaleY, double scaleZ) {
+        return new Matrix3(
+                new Vector3(scaleX, 0,  0),
+                new Vector3(0,  scaleY, 0),
+                new Vector3(0,  0,  scaleZ)
+        );
     }
 }

@@ -50,7 +50,6 @@ public class OrbitalLazerCannonRendering {
                 start = client.world.getTime();
             }
             long elapsed = client.world.getTime() - start;
-            Mod.LOGGER.info("Elapsed time: {}", elapsed);
             double size = elapsed / 100.0;
             Beam beam = new Beam(relCenter, cameraPos);
             beam.renderBeam(vertexConsumers, matrices, size);

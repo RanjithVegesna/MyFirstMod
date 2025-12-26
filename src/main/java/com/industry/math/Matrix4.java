@@ -2,6 +2,7 @@ package com.industry.math;
 
 import java.util.List;
 import java.util.Vector;
+import org.joml.Matrix4f;
 
 public class Matrix4 {
 
@@ -44,5 +45,29 @@ public class Matrix4 {
         Vector3 combinedTranslation = this.rotationMatrix.transform(other.translation).add(this.translation);
 
         return new Matrix4(combinedRotation, combinedTranslation);
+    }
+
+    public Matrix4f toJoml() {
+        Matrix4f m = new Matrix4f();
+
+        // Rotation
+        m.m00((float) rotationMatrix.xHat.x);
+        m.m10((float) rotationMatrix.xHat.y);
+        m.m20((float) rotationMatrix.xHat.z);
+
+        m.m01((float) rotationMatrix.yHat.x);
+        m.m11((float) rotationMatrix.yHat.y);
+        m.m21((float) rotationMatrix.yHat.z);
+
+        m.m02((float) rotationMatrix.zHat.x);
+        m.m12((float) rotationMatrix.zHat.y);
+        m.m22((float) rotationMatrix.zHat.z);
+
+        // Translation
+        m.m30((float) translation.x);
+        m.m31((float) translation.y);
+        m.m32((float) translation.z);
+
+        return m;
     }
 }

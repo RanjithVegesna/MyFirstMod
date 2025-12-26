@@ -32,7 +32,7 @@ public class OrbitalLazerCannon extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (playerTable == null) {
-            playerTable = new Table(new ArrayList<Class<?>>(List.of(PlayerEntity.class, BlockPos.class, Integer.class)));
+            playerTable = new Table(new ArrayList<Class<?>>(List.of(PlayerEntity.class, BlockPos.class, Long.class)));
             playerTable.nameColumns(new ArrayList<>(List.of("player", "hitPos", "time")));
         }
         ItemStack stack = user.getStackInHand(hand);
@@ -74,19 +74,21 @@ public class OrbitalLazerCannon extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        if (playerTable == null) return;
         if (world.isClient) return;
         for (PlayerEntity player : world.getPlayers()) {
 
-            Integer lastTime = (Integer) playerTable.query("time", "player", player);
+            Long lastTime = (Long) playerTable.query("time", "player", player);
             BlockPos pos = (BlockPos) playerTable.query("hitPos", "player", player);
             // Gun was never fired
-            if (lastTime == null) continue;
+            if (lastTime == null || lastTime == -1) continue;
 
             long currentTime = world.getTime();
 
-            if (currentTime < lastTime + DELAY) continue; // wait until 6 seconds have passed
 
-            // NUKE RAIN (your vertical explosion chain)
+            if (currentTime < lastTime + DELAY) continue; // wait until 6 seconds have passed
+            playerTable.update(playerTable.getIndex("player", player), "time", (long) -1);
+            playerTable.delete(player, "player");
             for (int i = 319; i > -64; i -= 10) {
                 world.createExplosion(
                         null,
@@ -97,9 +99,6 @@ public class OrbitalLazerCannon extends Item {
                         World.ExplosionSourceType.TNT
                 );
             }
-
-            // Clear stored data so it doesn't fire again
-            playerTable.delete(player, "player");
         }
         super.inventoryTick(stack, world, entity, slot, selected);
     }

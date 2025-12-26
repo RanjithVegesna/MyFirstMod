@@ -1,9 +1,12 @@
 package com.industry.Blocks;
 
 import com.industry.Mod;
+import com.industry.Blocks.BeaconBeamTrapBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
@@ -13,6 +16,9 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
 public class ModBlocks {
+
+    public static Block BEACON_BEAM_TRAP = registerBlock("beacon_beam_trap",
+            new BeaconBeamTrapBlock(AbstractBlock.Settings.create().hardness(4f).sounds(BlockSoundGroup.GLASS).slipperiness(1)));
 
     public static Block JUMP_PAD = registerBlock("jump_pad",
             new JumpPad(AbstractBlock.Settings.create().hardness(4f).requiresTool().sounds(BlockSoundGroup.CALCITE).slipperiness(1), 1));
@@ -56,6 +62,7 @@ public class ModBlocks {
         Registry.register(Registries.ITEM, Identifier.of(Mod.MOD_ID, name), new BlockItem(block, new Item.Settings()));
     }
 
+
     public static void registerModBlocks() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
             entries.add(JUMP_PAD);
@@ -70,7 +77,5 @@ public class ModBlocks {
             entries.add(JUMP_PAD_9);
             entries.add(JUMP_PAD_10);
         });
-
-
     }
 }

@@ -7,5 +7,8 @@ public class ModCommands {
         Thru.register();
         Fill.register();
         Box.register();
+        Sphere.register();
+        Ellipse.register();
+        HudCommand.register();
     }
 }

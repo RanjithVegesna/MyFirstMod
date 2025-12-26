@@ -1,6 +1,7 @@
 package com.industry;
 
 import classes.Table;
+import com.industry.Blocks.ModBlockEntities;
 import com.industry.Blocks.ModBlocks;
 import com.industry.Commands.ModCommands;
 import com.industry.item.Launcher;
@@ -11,6 +12,7 @@ import com.industry.item.amulet.SpeedAmulet;
 import com.industry.item.amulet.StrengthAmulet;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.entity.player.PlayerEntity;
@@ -43,6 +45,7 @@ public class Mod implements ModInitializer {
         LOGGER.info("Registered Items of" + MOD_ID);
         LOGGER.info("Initializing Blocks of" + MOD_ID);
         ModBlocks.registerModBlocks();
+        ModBlockEntities.registerModBlockEntities();
         LOGGER.info("Registered Blocks of" + MOD_ID);
         LOGGER.info("Initializing Packets of" + MOD_ID);
         ModNetworking.register();
@@ -50,7 +53,10 @@ public class Mod implements ModInitializer {
         ModCommands.register();
 
         ServerTickEvents.END_WORLD_TICK.register(world -> {
+
             for (PlayerEntity player : world.getPlayers()) {
+                player.getItemCooldownManager().remove(Items.WIND_CHARGE);
+
                 RegenerationAmulet.implementAmulet(player);
                 ResistanceAmulet.implementAmulet(player);
                 SpeedAmulet.implementAmulet(player);

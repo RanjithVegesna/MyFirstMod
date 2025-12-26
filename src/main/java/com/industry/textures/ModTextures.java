@@ -1,6 +1,7 @@
 package com.industry.textures;
 
 import com.industry.Mod;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 public class ModTextures {
@@ -9,4 +10,5 @@ public class ModTextures {
     public static final Identifier Blue = Identifier.of(Mod.MOD_ID, "textures/render/light_blue.png");
     public static final Identifier White = Identifier.of(Mod.MOD_ID, "textures/render/white.png");
     public static final Identifier Graviton =  Identifier.of(Mod.MOD_ID, "textures/render/graviton.png");
+    public static final Identifier GUI_Icons = Identifier.of("minecraft", "textures/gui/sprites/gamemode_switcher/slot.png");
 }

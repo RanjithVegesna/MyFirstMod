@@ -15,6 +15,7 @@ import net.minecraft.network.packet.s2c.play.EntitiesDestroyS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -114,10 +115,13 @@ public class Railgun extends Item {
                             skeleton.setInvulnerable(true);
 
                         }
-                        living.playSound(SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, 2.0f, 0.5f);
+                        entity.playSound(SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, 2.0f, 0.5f);
                         living.discard();
                         if(!(living instanceof SkeletonEntity)) {
                             world.spawnEntity(skeleton);
+                        }
+                        for (PlayerEntity PlayerEntity : world.getPlayers()) {
+                            player.sendMessage(Text.literal(living.getName().getString() +  " got vaporised from " + Math.abs((float) living.getPos().subtract(player.getPos()).length()) + " meters away by " + player.getName().getString()));
                         }
                     }
                 }
@@ -130,6 +134,7 @@ public class Railgun extends Item {
                 for (ServerPlayerEntity target : PlayerLookup.tracking(player)) {
                     ServerPlayNetworking.send(target, packet);
                 }
+
             }
         }
     }

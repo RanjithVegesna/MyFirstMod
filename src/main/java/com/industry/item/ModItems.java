@@ -1,6 +1,7 @@
 package com.industry.item;
 
 import com.ibm.icu.util.TimeUnitAmount;
+import com.industry.MaterialsAndTools.LifeStealSword;
 import com.industry.item.amulet.RegenerationAmulet;
 import com.industry.item.amulet.ResistanceAmulet;
 import com.industry.item.amulet.SpeedAmulet;
@@ -11,8 +12,11 @@ import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.message.ExitMessage;
 
 public class ModItems {
+
+    public static final Item LIFE_STEAL_SWORD = registerItem("life_steal_sword", new LifeStealSword(new Item.Settings()));
 
     public static final Item CHISEL = registerItem("shaper", new ChangerItem(new Item.Settings()));
     public static final Item SWITCHER = registerItem("mob_switcher", new MobSwitcherItem(new Item.Settings()));
@@ -58,6 +62,7 @@ public class ModItems {
             entries.add(RAILGUN);
             entries.add(ORBITAL_LAZER_CANNON);
             entries.add(GRAVITON_LAUNCHER);
+            entries.add(LIFE_STEAL_SWORD);
         });
     }
 

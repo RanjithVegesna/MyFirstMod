@@ -96,11 +96,11 @@ public class RenderUtil {
 
         // Top face (p5,p6,p2,p1)
         vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, topNormal);
-        vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
+        vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, topNormal);
         vertexConsumer(vertex, matrix, (float) p6.x, (float) p6.y, (float) p6.z, r, g, b, a, 1f, 1f, topNormal);
         vertexConsumer(vertex, matrix, (float) p2.x, (float) p2.y, (float) p2.z, r, g, b, a, 1f, 0f, topNormal);
         vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, topNormal);
-        vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, backNormal);
+        vertexConsumer(vertex, matrix, (float) p5.x, (float) p5.y, (float) p5.z, r, g, b, a, 0f, 1f, topNormal);
         vertexConsumer(vertex, matrix, (float) p2.x, (float) p2.y, (float) p2.z, r, g, b, a, 1f, 0f, topNormal);
         vertexConsumer(vertex, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 0f, 0f, topNormal);
 

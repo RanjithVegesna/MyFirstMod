@@ -1,5 +1,7 @@
 package com.industry.math;
 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Position;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
@@ -22,6 +24,10 @@ public final class Vector3 {
 
     public Vector3(Vector3d vector) {
         this(vector.x, vector.y, vector.z);
+    }
+
+    public Vector3(BlockPos pos) {
+        this(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public Vector3(Vec3d vector) {
@@ -77,6 +83,12 @@ public final class Vector3 {
         return vec;
     }
 
+    public static Vector3 from(@NotNull Position pos) {
+        return new Vector3(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static Vector3 from(@NotNull BlockPos pos) {return new Vector3(pos);}
+
     public static Vec3d from(double x, double y, double z) {
         return new Vec3d(x, y, z);
     }
@@ -93,6 +105,10 @@ public final class Vector3 {
         return Double.compare(vector.x, x) == 0 &&
                 Double.compare(vector.y, y) == 0 &&
                 Double.compare(vector.z, z) == 0;
+    }
+
+    public double distanceTo(Vector3 vector) {
+        return Math.sqrt((vector.x - x) * (vector.x - x) + (vector.y - y) * (vector.y - y) + (vector.z - z) * (vector.z - z));
     }
 
     @Override

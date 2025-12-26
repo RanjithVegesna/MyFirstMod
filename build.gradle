@@ -35,7 +35,7 @@ dependencies {
 
     implementation "org.joml:joml:1.10.5"
 
-    implementation files('lib/private-lib.jar')
+    implementation files('lib/TableClass.jar')
 
 
 }
