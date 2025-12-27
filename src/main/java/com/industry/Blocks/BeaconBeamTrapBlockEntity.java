@@ -67,7 +67,7 @@ public class BeaconBeamTrapBlockEntity extends BlockEntity {
             entity.timeUntilRegen = 0;
             entity.hurtTime = 0;
             entity.maxHurtTime = 0;
-            entity.damage(world.getDamageSources()., 1.0f);
+            entity.damage(world.getDamageSources().magic(), 1.0f);
         }
     }
 }

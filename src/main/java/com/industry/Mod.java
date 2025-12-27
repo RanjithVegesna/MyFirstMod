@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import static com.industry.MaterialsAndTools.ModMaterials.LifeSteal;
+
 
 public class Mod implements ModInitializer {
 	public static final String MOD_ID = "industry";
@@ -37,6 +39,7 @@ public class Mod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
+        System.out.println(LifeSteal);
         playerDataTable.nameColumns(List.of("UUID", "Pos1", "Pos2"));
         PlayerLeaveListener.register();
         PlayerLoginListener.register();

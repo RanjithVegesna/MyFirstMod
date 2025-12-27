@@ -37,7 +37,7 @@ public class BeaconBeamTrapRender implements BlockEntityRenderer<BeaconBeamTrapB
 
         if (client.world == null) return;
 
-        double beamWidth = 0.1;
+        double beamWidth = 0.1 + Math.sin(client.world.getTimeOfDay() / 24.0) * 0.01;
         double maxDistance= 100;
         Vec3d startT = entity.getPos().toCenterPos();
         Vec3d directionT = Vec3d.of(entity.getCachedState().get(BeaconBeamTrapBlock.FACING).getVector());
