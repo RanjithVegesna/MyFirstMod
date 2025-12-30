@@ -40,29 +40,30 @@ public class RenderUtil {
 
     }
 
-    // --- Renders a quad using two triangles, with correct UV mapping ---
-//    public static void renderQuad(VertexConsumer vertexConsumer, Matrix4f matrix,
-//                                  Vec3d a, Vec3d b, Vec3d c, Vec3d d,
-//                                  float r, float g, float b, float bCol, float aCol) {
-//        // Triangle 1: a-b-c
-//        renderTriangle(vertexConsumer, matrix, a, b, c,
-//                0f, 0f,
-//                0f, 1f,
-//                1f, 1f,
-//                r, g, bCol, aCol);
-//        // Triangle 2: a-c-d
-//        renderTriangle(vertexConsumer, matrix, a, c, d,
-//                0f, 0f,
-//                1f, 1f,
-//                1f, 0f,
-//                r, g, bCol, aCol);
-//    }
+    public static void renderQuad(VertexConsumer vertex, Matrix4f matrix,
+                                  Vec3d p1,  Vec3d p2, Vec3d p3, Vec3d p4, float r, float g, float b, float a
+    ) {
+        RenderSystem.disableCull();
+        Vec3d normal = p2.subtract(p1).crossProduct(p3.subtract(p1)).normalize();
+
+
+        vertexConsumer(vertex, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 0f, 1f, normal);
+        vertexConsumer(vertex, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 0f, 1f, normal);
+        vertexConsumer(vertex, matrix, (float) p2.x, (float) p2.y, (float) p2.z, r, g, b, a, 1f, 1f, normal);
+        vertexConsumer(vertex, matrix, (float) p3.x, (float) p3.y, (float) p3.z, r, g, b, a, 1f, 0f, normal);
+        vertexConsumer(vertex, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 0f, 1f, normal);
+        vertexConsumer(vertex, matrix, (float) p1.x, (float) p1.y, (float) p1.z, r, g, b, a, 0f, 1f, normal);
+        vertexConsumer(vertex, matrix, (float) p3.x, (float) p3.y, (float) p3.z, r, g, b, a, 1f, 0f, normal);
+        vertexConsumer(vertex, matrix, (float) p4.x, (float) p4.y, (float) p4.z, r, g, b, a, 0f, 0f, normal);
+        RenderSystem.enableCull();
+    }
 
     // --- Renders a textured box given 8 corner points ---
     public static void renderBox(VertexConsumer vertex, Matrix4f matrix,
                                  Vec3d p1, Vec3d p2, Vec3d p3, Vec3d p4,
                                  Vec3d p5, Vec3d p6, Vec3d p7, Vec3d p8,
-                                 float r, float g, float b, float a) {
+                                 float r, float g, float b, float a
+    ) {
 
         RenderSystem.disableCull();
 
@@ -136,4 +137,9 @@ public class RenderUtil {
         RenderSystem.enableCull();
     }
 
+    public static VertexConsumer getTextureConsumer(VertexConsumerProvider vertices, Identifier texture) {
+        // Use translucent entity render layer
+        RenderLayer layer = RenderLayer.getEntityAlpha(texture);
+        return vertices.getBuffer(layer);
+    }
 }

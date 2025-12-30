@@ -11,6 +11,7 @@ import com.industry.math.Vector3;
 import com.industry.packets.GravitonLauncherPayload;
 import com.industry.packets.OrbitalLazerCannonPayload;
 import com.industry.packets.RailgunFlagsPayload;
+import com.industry.textures.ModTextures;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -31,6 +32,7 @@ public class ModClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        ModTextures.register();
         ModHUD.start();
         BlockEntityRendererRegistry.register(
                 ModBlockEntities.BEACON_BEAM_TRAP,

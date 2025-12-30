@@ -75,8 +75,4 @@ public class BeaconBeamTrapBlock extends BlockWithEntity {
         return this.getDefaultState().with(FACING, ctx.getPlayerLookDirection().getOpposite());
     }
 
-    @Override
-    protected BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
 }
