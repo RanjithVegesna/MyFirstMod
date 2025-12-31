@@ -10,6 +10,9 @@ import com.industry.item.amulet.RegenerationAmulet;
 import com.industry.item.amulet.ResistanceAmulet;
 import com.industry.item.amulet.SpeedAmulet;
 import com.industry.item.amulet.StrengthAmulet;
+import com.industry.serverSideImplementers.GlobalTickHandler;
+import com.industry.serverSideImplementers.PlayerTickHandler;
+import com.industry.serverSideImplementers.Registers;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.item.Items;
@@ -39,43 +42,13 @@ public class Mod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
-        System.out.println(LifeSteal);
-        playerDataTable.nameColumns(List.of("UUID", "Pos1", "Pos2"));
-        PlayerLeaveListener.register();
-        PlayerLoginListener.register();
-        LOGGER.info("Initializing Items of" + MOD_ID);
-        ModItems.registerModItems();
-        LOGGER.info("Registered Items of" + MOD_ID);
-        LOGGER.info("Initializing Blocks of" + MOD_ID);
-        ModBlocks.registerModBlocks();
-        ModBlockEntities.registerModBlockEntities();
-        LOGGER.info("Registered Blocks of" + MOD_ID);
-        LOGGER.info("Initializing Packets of" + MOD_ID);
-        ModNetworking.register();
-        LOGGER.info("Registered Packets of" + MOD_ID);
-        ModCommands.register();
+        Registers.registerAll();
 
         ServerTickEvents.END_WORLD_TICK.register(world -> {
+            GlobalTickHandler.tick();
 
             for (PlayerEntity player : world.getPlayers()) {
-                player.getItemCooldownManager().remove(Items.WIND_CHARGE);
-
-                RegenerationAmulet.implementAmulet(player);
-                ResistanceAmulet.implementAmulet(player);
-                SpeedAmulet.implementAmulet(player);
-                StrengthAmulet.implementAmulet(player);
-
-                if (Launcher.lowFrictionPlayers.contains(player)) {
-                    Vec3d velocity = player.getVelocity();
-                    if (!player.isOnGround() && !player.isTouchingWater() && !player.isInLava()) {
-                        if (velocity.y > 0) {
-                            player.setVelocity(velocity.multiply(1.05));
-                            player.velocityModified = true;
-                        }
-                    } else {
-                        Launcher.lowFrictionPlayers.remove(player);
-                    }
-                }
+                PlayerTickHandler.tick(player);
             }
         });
 	}

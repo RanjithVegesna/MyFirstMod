@@ -1,0 +1,8 @@
+{
+  "death.sound": {
+    "category": "master",
+    "sounds": [
+      "industry:death_sound"
+    ]
+  }
+}

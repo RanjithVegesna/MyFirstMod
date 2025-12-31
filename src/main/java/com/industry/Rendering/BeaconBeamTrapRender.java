@@ -133,7 +133,7 @@ public class BeaconBeamTrapRender implements BlockEntityRenderer<BeaconBeamTrapB
         Matrix4f matrix = matrices.peek().getPositionMatrix();
 
         renderQuad(vertices.getBuffer(RenderLayer.getEntityAlpha(BeamBlockFront)), matrix, p1, p2, p3, p4, 1, 1, 1, 1);
-        renderQuad(vertices.getBuffer(RenderLayer.getEntityAlpha(BeamBlockBack)), matrix, p5, p6, p7, p8, 1, 1, 1, 1);
+        renderQuad(vertices.getBuffer(RenderLayer.getEntityAlpha(BeamBlockBack)), matrix, p6, p7, p8, p5, 1, 1, 1, 1);
 
         renderQuad(vertices.getBuffer(RenderLayer.getEntityAlpha(BeamBlockSide)), matrix, p4, p3, p6, p5, 1, 1, 1, 1);
         renderQuad(vertices.getBuffer(RenderLayer.getEntityAlpha(BeamBlockSide)), matrix, p8, p7, p2, p1, 1, 1, 1, 1);

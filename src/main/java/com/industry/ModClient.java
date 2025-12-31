@@ -3,9 +3,11 @@ package com.industry;
 import com.industry.Blocks.ModBlockEntities;
 import com.industry.HUD.ModHUD;
 import com.industry.Rendering.BeaconBeamTrapRender;
+import com.industry.Rendering.DeadBodyRender;
 import com.industry.Rendering.GravitonLauncher.GravitonLauncherRendering;
 import com.industry.Rendering.OrbitalLaserCannon.OrbitalLazerCannonRendering;
 import com.industry.Rendering.Railgun.Render;
+import com.industry.entities.ModEntities;
 import com.industry.item.RailgunClientState;
 import com.industry.math.Vector3;
 import com.industry.packets.GravitonLauncherPayload;
@@ -15,6 +17,7 @@ import com.industry.textures.ModTextures;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
@@ -37,6 +40,11 @@ public class ModClient implements ClientModInitializer {
         BlockEntityRendererRegistry.register(
                 ModBlockEntities.BEACON_BEAM_TRAP,
                 BeaconBeamTrapRender::new
+        );
+
+        EntityRendererRegistry.register(
+                ModEntities.DEAD_BODY,
+                DeadBodyRender::new
         );
 
         WorldRenderEvents.END.register(context -> {

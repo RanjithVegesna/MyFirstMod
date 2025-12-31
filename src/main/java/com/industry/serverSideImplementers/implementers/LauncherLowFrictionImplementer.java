@@ -1,4 +1,4 @@
-package com.industry.serverSideImplementers;
+package com.industry.serverSideImplementers.implementers;
 
 import com.industry.item.Launcher;
 import net.minecraft.entity.player.PlayerEntity;

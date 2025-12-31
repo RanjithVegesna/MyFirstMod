@@ -32,6 +32,7 @@ public class ModItems {
     public static final Item RAILGUN = registerItem("railgun", new Railgun(new Item.Settings()));
     public static final Item ORBITAL_LAZER_CANNON = registerItem("orbital_laser_cannon", new OrbitalLazerCannon(new Item.Settings()));
     public static final Item GRAVITON_LAUNCHER = registerItem("graviton_launcher", new GravitonLauncher(new Item.Settings()));
+    public static final Item AURA = registerItem("aura", new Item(new Item.Settings().maxCount(1)));
 
     public static final Item REGENERATION_AMULET = registerItem("regeneration_amulet", new RegenerationAmulet(new Item.Settings()));
     public static final Item RESISTANCE_AMULET = registerItem("resistance_amulet", new ResistanceAmulet(new Item.Settings()));
