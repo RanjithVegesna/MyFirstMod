@@ -41,4 +41,5 @@ public class PlayerEntityMixin {
 
         jumpedLastTick = vel.y > 0;
     }
+
 }
